@@ -1,70 +1,52 @@
-import faceBook from "../assets/facebookIcon.svg";
-import instagram from "../assets/instagramIcon.svg";
-import twitter from "../assets/twitterIcon.svg";
-import youtube from "../assets/youtubeIcon.svg";
-import { Link } from "react-router-dom";
+
+import { blurIn, fadeLeft, fadeUp } from "../animations/Variants";
+import aboutImg from "../assets/about.jpg";
+import { useIsHome } from "../CustomHooks/useIsHome";
+import { motion } from "framer-motion";
 
 const About = () => {
+  const isHome = useIsHome();
+
   return (
-    <div className="w-full h-screen p-5 space-y-15 text-center text-[20px]">
-      <h1 className="text-5xl font-extrabold">About Us</h1>
-      <div className="flex flex-col items-center justify-center gap-3">
-        <h2 className="text-3xl">Who We Are?</h2>
-        <p className="w-250">
-          We are the proud owners and operators of Gajuri Futsal ArenaX, a
-          premier futsal facility located in Gajuri, Dhading. Our mission is to
+    <div className={`w-full md:h-screen md:p-5 md:flex  space-y-10 gap-20 ${!isHome && 'md:px-25 md:mt-25 mt-30 px-5'}`}>
+      <div className="md:w-[70%]  space-y-10">
+        <motion.h1 className="md:text-5xl text-4xl  font- text-[#0cb455] italic">
+          About Gajuri Futsal ArenaX
+        </motion.h1>
+        <motion.p initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.3}} variants={fadeLeft} className="text-left text-white/70 md:text-[18px]">
+           <span className="font-bold text-white">Gajuri Futsal ArenaX</span>, a
+          premier futsal facility located in <span className="font-bold text-white">Gajuri-1, Dhading, Nepal</span>.
+          <br /><br />
+           Our mission is to
           promote the love of football and futsal in the local community by
           offering a well-maintained arena where players can enjoy the game in a
-          safe, professional, and friendly environment. With a passion for the
+          safe, professional, and friendly environment. 
+          <br /><br />
+          With a passion for the
           sport and a commitment to quality service, we strive to be the go-to
-          destination for futsal enthusiasts in the region.
-        </p>
+          destination for futsal enthusiasts in the region. Our primary goal is
+          to provide a professional, well-organized, and secure futsal
+          environment for football and futsal enthusiasts. 
+          <br /> <br />
+          We aim to ensure a
+           <span className="font-bold text-white"> smooth booking experience, fair scheduling</span>, and a controlled game
+          atmosphere where players of all levels can enjoy competitive and
+          recreational futsal matches.
+          <br /><br />
+           Whether you're a casual player or part of
+          a team, our platform is designed to make your futsal experience
+          simple, enjoyable, and efficient.
+        </motion.p>
       </div>
-      <div className="flex flex-col items-center justify-center gap-3">
-        <h2 className="text-3xl">Our Goal...</h2>
-        <p className="w-250">
-          Our primary goal is to provide a professional, well-organized, and
-          secure futsal environment for football and futsal enthusiasts. We aim
-          to ensure a smooth booking experience, fair scheduling, and a
-          controlled game atmosphere where players of all levels can enjoy
-          competitive and recreational futsal matches. Whether you're a casual
-          player or part of a team, our platform is designed to make your futsal
-          experience simple, enjoyable, and efficient.
-        </p>
-      </div>
-      <div className="w-full  flex items-center justify-center flex-col gap-3">
-        <h2 className="text-3xl">Follow us</h2>
-        <div className="flex gap-5 p-2 ">
-          <Link>
-            <img
-              src={faceBook}
-              alt="facebook"
-              className="w-8 cursor-pointer transition-all duration-400  ease-in-out  hover:scale-125"
-            />
-          </Link>
-          <Link>
-            <img
-              src={instagram}
-              alt="instagram"
-              className="w-8 cursor-pointer transition-all duration-400  ease-in-out  hover:scale-125"
-            />
-          </Link>
-          <Link>
-            <img
-              src={twitter}
-              alt="twitter"
-              className="w-8 cursor-pointer transition-all duration-400  ease-in-out  hover:scale-125"
-            />
-          </Link>
-          <Link>
-            <img
-              src={youtube}
-              alt="youtube"
-              className="w-10 cursor-pointer transition-all duration-400  ease-in-out  hover:scale-125"
-            />
-          </Link>
-        </div>
-      </div>
+      <motion.div initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.3}} variants={blurIn}>
+        <img
+          src={aboutImg}
+          alt="About"
+          className="md:w-150 md:h-150 object-cover md:rounded-2xl"
+        />
+      </motion.div>
+
+    
     </div>
   );
 };

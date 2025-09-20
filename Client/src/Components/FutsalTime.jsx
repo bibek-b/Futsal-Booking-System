@@ -3,6 +3,8 @@ import { timeSlots } from "../Library/TimeSlot.js";
 import apiRequest from "../API REQUEST/apiRequest.js";
 import useFetchUser from "../CustomHooks/useFetchUser.js";
 import { SocketContext } from "../Context/SocketContext.jsx";
+import { motion } from "framer-motion";
+import { fadeInRight, staggerContainer } from "../animations/Variants.js";
 
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
@@ -86,50 +88,61 @@ const FutsalTime = ({ selectDate }) => {
   const bookedTime = new Set(bookings.map((b) => b.startTime));
 
   return (
-    <div className="w-[90%] space-y-6 transition-opacity">
-      <div className=" w-[100%] grid grid-cols-4 text-2xl gap-10 p-2">
+    <div className="w-full max-w-6xl mx-auto space-y-6 transition-opacity px-4">
+      <motion.div initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.1}} variants={staggerContainer} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
         {timeSlots.map((t, index) => {
           const hasBooked =
             bookedTime.has(t.startTime) || changeBooking.includes(t.id);
+          {/* const showSlot = showMore || index < 8;
+
+          if (!showSlot) return null; */}
+
           return (
-            <div
+            <motion.div
+            variants={fadeInRight}
               key={t.id}
-              className={`text-center space-y-3 border p-3 rounded transform transition duration-500 ease-in-out ${
-                showMore
-                  ? "opacity-100 translate-y-0"
-                  : index >= 8
-                  ? "opacity-0 translate-y-4 hidden"
-                  : ""
+              className={`flex flex-col justify-between items-center text-center space-y-3 p-4 rounded-lg shadow-md transition-transform duration-300 ${
+                hasBooked
+                  ? "bg-[#2a2a2a] text-gray-500"
+                  : "bg-[#1f1f1f] hover:scale-105 hover:shadow-xl"
               }`}
             >
-              <p>
-                Time: {t.startTime} to {t.endTime}
+              <p className="text-xl font-semibold text-white">
+                {t.startTime} - {t.endTime}
               </p>
-              <p className={`${hasBooked ? "text-[#ff3e3e]" : ""}`}>
-                Status: {hasBooked ? "Booked" : "Available"}
-              </p>
+
+              <span
+                className={`text-sm font-medium px-3 py-1 rounded-full ${
+                  hasBooked
+                    ? "bg-red-500 text-white"
+                    : "bg-green-500 text-white animate-pulse"
+                }`}
+              >
+                {hasBooked ? "Booked" : "Available"}
+              </span>
+
               {!hasBooked && date >= todaysDate && (
                 <button
                   onClick={() => handleBooking(t.startTime, t.id)}
-                  className={`bg-[#00ff87] rounded p-1 hover:bg-[#00ff8886] cursor-pointer outline-0 border-0 ${
-                    status === "Booked" && "opacity-0 cursor-none"
-                  }`}
+                  className="mt-2 bg-[#00ff87] text-black px-4 py-2 rounded hover:bg-[#00ff8886] transition cursor-pointer"
                 >
                   Book Now
                 </button>
               )}
-            </div>
+            </motion.div>
           );
         })}
-      </div>
-      <div className="w-full text-center">
+      </motion.div>
+
+      {/* Show More Button */}
+      {/* <div className="text-center">
         <button
-          className="border w-30 bg-[#ffffff] text-black rounded p-2 cursor-pointer transition-all duration-300"
+          className="border border-white bg-white text-black rounded px-6 py-2 hover:bg-gray-200 transition-all duration-300"
           onClick={handleShowMore}
         >
           {showMore ? "Show Less" : "Show More"}
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
