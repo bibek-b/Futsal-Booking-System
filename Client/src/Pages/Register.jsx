@@ -34,7 +34,7 @@ const Register = () => {
         <Link to="/">
           <div className="absolute left-30 top-30 text-center">
             <h1 className="text-6xl ">
-              Gajuri <span className="text-[#0cb455]">Futsal</span>
+              Bibek <span className="text-[#0cb455]">Futsal</span>
             </h1>{" "}
             <i className="text-5xl">ArenaX</i>
           </div>

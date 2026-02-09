@@ -1,7 +1,7 @@
 import location from "../assets/location.svg";
 import { motion } from "framer-motion";
 
-const text1 = "Gajuri";
+const text1 = "Bibek";
 const text2 = "Futsal";
 
 const HeroPage = () => {
@@ -52,7 +52,7 @@ const HeroPage = () => {
                 className="flex gap-1 text-center mt-10 text-sm md:text-[20px] "
               >
                 <img src={location} alt="location" className="md:w-8 w-12" />
-                Gajuri-1, Dhading, Nepal
+                Nepal
               </motion.span>
             </address>
             <div>

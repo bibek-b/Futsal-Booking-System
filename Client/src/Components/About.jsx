@@ -11,11 +11,11 @@ const About = () => {
     <div className={`w-full md:h-screen md:p-5 md:flex  space-y-10 gap-20 ${!isHome && 'md:px-25 md:mt-25 mt-30 px-5'}`}>
       <div className="md:w-[70%]  space-y-10">
         <motion.h1 className="md:text-5xl text-4xl  font- text-[#0cb455] italic">
-          About Gajuri Futsal ArenaX
+          About Bibek Futsal ArenaX
         </motion.h1>
         <motion.p initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.3}} variants={fadeLeft} className="text-left text-white/70 md:text-[18px]">
-           <span className="font-bold text-white">Gajuri Futsal ArenaX</span>, a
-          premier futsal facility located in <span className="font-bold text-white">Gajuri-1, Dhading, Nepal</span>.
+           <span className="font-bold text-white">Bibek Futsal ArenaX</span>, a
+          premier futsal facility located in <span className="font-bold text-white">Nepal</span>.
           <br /><br />
            Our mission is to
           promote the love of football and futsal in the local community by

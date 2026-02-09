@@ -32,7 +32,7 @@ const Footer = () => {
       <div className="w-full  flex items-center justify-center flex-col p-10 gap-6">
         <div className="flex items-center flex-col gap-2">
           <div className="flex flex-col items-center">
-            <span className="text-[#0cb455] md:text-7xl text-4xl">Gajuri Futsal</span>
+            <span className="text-[#0cb455] md:text-7xl text-4xl">Bibek Futsal</span>
             <span className="text-5xl text-[#fec706]">ArenaX</span>
           </div>
           <div className="flex gap-5 p-2 ">
@@ -65,11 +65,11 @@ const Footer = () => {
           <div className="text-xl space-y-2">
             <div className="flex gap-2">
               <img src={locationIcon} alt="Location" className="w-8 h-8" />
-              <span>Gajuri-1, Dhading, Nepal</span>
+              <span> Nepal</span>
             </div>
             <div className="flex gap-2">
               <img src={message} alt="Message" className="w-8 h-8" />
-              <span>info@gajurifutsalarena.com</span>
+              <span>info@bibekfutsalarena.com</span>
             </div>
             <div className="flex gap-2">
               <img src={phone} alt="phone" className="w-8 h-8" />
@@ -79,7 +79,7 @@ const Footer = () => {
       </div>
       <div className="flex flex-col items-center justify-center p-5 md:text-[18px] gap-2 ">
         <div className="h-px bg-[#0cb455] w-[80%]" />
-        Copyright &copy; Gajuri Futsal ArenaX, {date.getFullYear()}
+        Copyright &copy; Bibek Futsal ArenaX, {date.getFullYear()}
       </div>
     </div>
   );
