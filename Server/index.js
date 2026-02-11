@@ -16,18 +16,19 @@ const conn =  mongoose.connect(process.env.MONGODB_URL);
 
 conn && console.log('DB connected successfully!');
 
+const FRONTEND_URL = "https://futsal-booking-system-azure.vercel.app"
 
 
 app.use(json());
 app.use(cors({
-    origin: "https://futsal-booking-system-azure.vercel.app",
+    origin: FRONTEND_URL,
     credentials: true
 }));
 
 //socket
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL
+        origin: FRONTEND_URL
     }
 });
 
