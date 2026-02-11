@@ -52,7 +52,7 @@ const HeroPage = () => {
                 className="flex gap-1 text-center mt-10 text-sm md:text-[20px] "
               >
                 <img src={location} alt="location" className="md:w-8 w-12" />
-                Nepal
+                Kathmandu, Nepal
               </motion.span>
             </address>
             <div>

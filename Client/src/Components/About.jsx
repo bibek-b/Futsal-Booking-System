@@ -15,7 +15,7 @@ const About = () => {
         </motion.h1>
         <motion.p initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.3}} variants={fadeLeft} className="text-left text-white/70 md:text-[18px]">
            <span className="font-bold text-white">Bibek Futsal ArenaX</span>, a
-          premier futsal facility located in <span className="font-bold text-white">Nepal</span>.
+          premier futsal facility located in <span className="font-bold text-white">Kathmandu,Nepal</span>.
           <br /><br />
            Our mission is to
           promote the love of football and futsal in the local community by
