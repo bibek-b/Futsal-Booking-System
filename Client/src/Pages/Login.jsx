@@ -25,7 +25,7 @@ const Login = () => {
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
       console.log(error);
-      setError(error.response.data.error);
+      setError("Server error while login, Please try again");
     }
   };
 
