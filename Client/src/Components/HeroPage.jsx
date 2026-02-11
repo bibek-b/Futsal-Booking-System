@@ -61,7 +61,7 @@ const HeroPage = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6, duration: 1 }}
                 onClick={() =>
-                  window.scrollTo({ top: 700, behavior: "smooth" })
+                  window.scrollTo({ top: 1500, behavior: "smooth" })
                 }
                 className=" mt-8  p-2 bg-[#0cb455] cursor-pointer outline-0  w-25  rounded md:text-[18px] hover:bg-[#189b5e]"
               >

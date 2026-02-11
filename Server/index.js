@@ -14,7 +14,7 @@ const server = http.createServer(app);
 
 const conn =  mongoose.connect(process.env.MONGODB_URL);
 
-// conn && console.log('DB connected successfully!');
+conn && console.log('DB connected successfully!');
 
 
 
