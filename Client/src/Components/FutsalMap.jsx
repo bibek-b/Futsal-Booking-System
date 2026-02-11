@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import customMarker from '../assets/uclball.png';
 
-const position = [27.8292, 84.944];
+const position = [ 27.7035, 85.3210];
 
 const customIcon = new L.icon({
     iconUrl: customMarker,
@@ -27,7 +27,7 @@ export default function FutsalMap () {
             <Marker position={position} icon={customIcon}>
                <Popup>
                 ArenaX Futsal <br />
-                Gajuri Bazar, Dhading
+                Kathmandu, Dhading
                </Popup> 
             </Marker>
             </MapContainer>
