@@ -18,14 +18,15 @@ const Register = () => {
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
     const newUser = {
-      userName: inputs.username,
+      username: inputs.username,
       email: inputs.email,
       password: inputs.password,
       confirmPassword: inputs.confirmPassword,
       phoneNum: inputs.phNo,
     };
 
-    if(inputs.password !== inputs.confirmPassword) return setError("Passwords doesn't match");
+    if (inputs.password !== inputs.confirmPassword)
+      return setError("Passwords doesn't match");
 
     try {
       const res = await apiRequest.post("/auth/register", newUser);
@@ -33,8 +34,7 @@ const Register = () => {
       login(res.data.Token);
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
-setError("Server error while register, Please try again");
-
+      setError("Server error while register, Please try again");
     }
   };
 
