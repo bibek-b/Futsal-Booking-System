@@ -20,7 +20,7 @@ conn && console.log('DB connected successfully!');
 
 app.use(json());
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "https://futsal-booking-system-azure.vercel.app",
     credentials: true
 }));
 
