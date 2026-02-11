@@ -2,9 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import apiRequest from "../API REQUEST/apiRequest";
 import { useState } from "react";
 import footBallImg from "../assets/uclball.png";
+import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../Context/AuthContext";
+import { useContext } from "react";
 
 const Register = () => {
   const [error, setError] = useState("");
+  const { login } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -17,12 +21,17 @@ const Register = () => {
       userName: inputs.username,
       email: inputs.email,
       password: inputs.password,
+      confirmPassword: inputs.confirmPassword,
       phoneNum: inputs.phNo,
     };
 
+    if(password !== confirmPassword) return setError("Passwords doesn't matched");
+
     try {
       const res = await apiRequest.post("/auth/register", newUser);
-      res && navigate("/login");
+      const token = jwtDecode(res.data.token);
+      login(res.data.Token);
+      navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
       setError(error.response.data.error);
     }
@@ -74,6 +83,13 @@ const Register = () => {
             name="password"
             className="border rounded p-2 w-80 "
             placeholder="Password"
+          />
+          <label htmlFor="password">Confirm Password:</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            className="border rounded p-2 w-80 "
+            placeholder="Confirm Password"
           />
         </div>
         <div className="text-[17px]">
