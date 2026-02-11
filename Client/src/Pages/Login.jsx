@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const res = await apiRequest.post("/auth/login", { email, password });
-      const token = jwtDecode(res.data.Token);
+      const token = jwtDecode(res.data.token);
       login(res.data.Token);
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
