@@ -6,7 +6,7 @@ import bookingRoute from './Routes/bookingRoute.js';
 import mongoose from 'mongoose';
 import {Server} from 'socket.io';
 import http from 'http';
-import initSocket from '../Socket/socket.js';
+import initSocket from './Socket/socket.js';
 
 const app = express();
 
