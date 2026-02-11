@@ -4,6 +4,7 @@ import apiRequest from "../API REQUEST/apiRequest";
 import { AuthContext } from "../Context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import footBallImg from "../assets/uclball.png";
+import { serverUrl } from "../env/serverUrl";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -11,9 +12,11 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const { API_URL } = serverUrl();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log(API_URL)
 
     const formData = new FormData(e.target);
     const { email, password } = Object.fromEntries(formData);
