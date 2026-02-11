@@ -33,7 +33,7 @@ const Login = async (req, res) => {
     //check  password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Invalid Credentials" });
-    const { token } = generateToken();
+    const { token } = generateToken(user);
    
     return res.status(200).json({ user, token });
   } catch (error) {

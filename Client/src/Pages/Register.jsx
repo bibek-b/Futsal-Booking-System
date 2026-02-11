@@ -31,7 +31,7 @@ const Register = () => {
     try {
       const res = await apiRequest.post("/auth/register", newUser);
       const token = jwtDecode(res.data.token);
-      login(res.data.Token);
+      login(res.data.token);
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
       setError("Server error while register, Please try again");

@@ -5,8 +5,8 @@ import user from "../assets/user.webp";
 import useFetchUser from "../CustomHooks/useFetchUser";
 import { useActiveSectionStore } from "../stores/activeSection";
 import { useIsHome } from "../CustomHooks/useIsHome";
-import menuBar from '../assets/menu.svg';
-import X from '../assets/cross.svg';
+import menuBar from "../assets/menu.svg";
+import X from "../assets/cross.svg";
 
 const NAV_LINKS = [
   { id: 1, name: "Home", href: "/" },
@@ -22,7 +22,7 @@ const Navbar = () => {
   const activeLink = useActiveSectionStore((state) => state.activeSection);
   const [isOpen, setIsOpen] = useState(false);
   const setActiveLink = useActiveSectionStore(
-    (state) => state.setActiveSection
+    (state) => state.setActiveSection,
   );
   const isHome = useIsHome();
 
@@ -54,7 +54,7 @@ const Navbar = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
-console.log({activeLink})
+
   return (
     <div>
       <nav
@@ -129,20 +129,34 @@ console.log({activeLink})
             )}
           </div>
           <div className="transition-all duration-700 ease-in-out z-10">
-            <img src={isOpen ? X : menuBar} alt="Menu" onClick={() => setIsOpen(!isOpen)} className={`w-8 h-8 md:hidden transform  transition-transform duration-700 ${isOpen ? 'rotate-90': 'rotate-0'}`} />
-        </div>
+            <img
+              src={isOpen ? X : menuBar}
+              alt="Menu"
+              onClick={() => setIsOpen(!isOpen)}
+              className={`w-8 h-8 md:hidden transform  transition-transform duration-700 ${isOpen ? "rotate-90" : "rotate-0"}`}
+            />
+          </div>
         </ul>
 
-        <div className={`absolute h-60 transition-all duration-500 ease-in-out bg-black w-full  ${isOpen ? 'top-0' : '-top-60'}`}>
-          {isOpen && <ul className="flex flex-col gap-4 pt-15 px-5">
-            {NAV_LINKS.map(data => (
-              <Link to={data.href} onClick={() => handleLinkClick(data.href)} className={`cursor-pointer transition-all duration-300 hover:text-gray-400 ${
-                  activeLink == data.href && "text-[#00ff87]"
-                }`}>{data.name}</Link>
-            ))}
-          </ul>}
+        <div
+          className={`absolute h-60 transition-all duration-500 ease-in-out bg-black w-full  ${isOpen ? "top-0" : "-top-60"}`}
+        >
+          {isOpen && (
+            <ul className="flex flex-col gap-4 pt-15 px-5">
+              {NAV_LINKS.map((data) => (
+                <Link
+                  to={data.href}
+                  onClick={() => handleLinkClick(data.href)}
+                  className={`cursor-pointer transition-all duration-300 hover:text-gray-400 ${
+                    activeLink == data.href && "text-[#00ff87]"
+                  }`}
+                >
+                  {data.name}
+                </Link>
+              ))}
+            </ul>
+          )}
         </div>
-        
       </nav>
       {/* <HeroPage /> */}
     </div>
