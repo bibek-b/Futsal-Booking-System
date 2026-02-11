@@ -34,7 +34,7 @@ const Register = () => {
       login(res.data.token);
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
-      setError("Server error while register, Please try again");
+      setError(error.response.data.error || "Server error while register, Please try again");
     }
   };
 
