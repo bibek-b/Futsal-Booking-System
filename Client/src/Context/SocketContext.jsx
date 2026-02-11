@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import { AuthContext } from "./AuthContext";
 import { useState } from "react";
 import { useEffect } from "react";
+import { serverUrl } from "../env/serverUrl";
 
 export const SocketContext = createContext();
 
@@ -11,10 +12,11 @@ export const SocketContextProvider = ({ children }) => {
   const [booking, setBooking] = useState([]);
   const [socket, setSocket] = useState(null);
   const { token } = useContext(AuthContext);
+  const { API_URL } = serverUrl();
 
   useEffect(() => {
     if (token) {
-      const newSocket = io.connect("http://localhost:5000");
+      const newSocket = io.connect(API_URL);
 
       setSocket(newSocket);
 

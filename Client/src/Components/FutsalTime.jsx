@@ -85,7 +85,8 @@ const FutsalTime = ({ selectDate }) => {
     setShowMore(!showMore);
   };
 
-  const bookedTime = new Set(bookings.map((b) => b.startTime));
+
+  const bookedTime = new Set(bookings?.map((b) => b.startTime));
 
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6 transition-opacity px-4">
