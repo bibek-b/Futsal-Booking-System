@@ -25,7 +25,7 @@ const Register = () => {
       phoneNum: inputs.phNo,
     };
 
-    if(password !== confirmPassword) return setError("Passwords doesn't matched");
+    if(inputs.password !== inputs.confirmPassword) return setError("Passwords doesn't match");
 
     try {
       const res = await apiRequest.post("/auth/register", newUser);
