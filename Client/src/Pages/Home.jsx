@@ -5,52 +5,90 @@ import Contact from "../Components/Contact";
 import { useInView } from "react-intersection-observer";
 import { useActiveSectionStore } from "../stores/activeSection";
 import { useEffect } from "react";
+import SectionDivider from "../Components/common/SectionDivider";
 
 const Home = () => {
-  const { ref: homeRef, inView: homeInView } = useInView({ threshold: 0,
-    rootMargin: "-10% 0px -60% 0px"
-   });
-  const { ref: aboutRef, inView: aboutInView } = useInView({ threshold: 0,
-    rootMargin: "-40% 0px -60% 0px"
-   });
+  const { ref: homeRef, inView: homeInView } = useInView({
+    threshold: 0,
+    rootMargin: "-10% 0px -60% 0px",
+  });
+  const { ref: aboutRef, inView: aboutInView } = useInView({
+    threshold: 0,
+    rootMargin: "-40% 0px -60% 0px",
+  });
   const { ref: bookFutsalRef, inView: bookFutsalInView } = useInView({
     threshold: 0,
-    rootMargin: "-40% 0px -60% 0px"
+    rootMargin: "-40% 0px -60% 0px",
   });
   const { ref: contactRef, inView: contactInView } = useInView({
     threshold: 0,
-    rootMargin: "-40% 0px -60% 0px"
+    rootMargin: "-40% 0px -60% 0px",
   });
 
   const setActiveLink = useActiveSectionStore(
-    (state) => state.setActiveSection
+    (state) => state.setActiveSection,
   );
 
   useEffect(() => {
-    window.scrollTo({top: 0})
-  },[])
+    window.scrollTo({ top: 0 });
+  }, []);
 
   useEffect(() => {
-      if (homeInView) setActiveLink("/");
-      else if (aboutInView) setActiveLink("about");
-      else if (bookFutsalInView) setActiveLink("bookFutsal");
-      else if (contactInView) setActiveLink("contact");
+    if (homeInView) setActiveLink("/");
+    else if (aboutInView) setActiveLink("about");
+    else if (bookFutsalInView) setActiveLink("bookFutsal");
+    else if (contactInView) setActiveLink("contact");
   }, [homeInView, aboutInView, bookFutsalInView, contactInView, setActiveLink]);
 
   return (
-    <div className="bg-[#1a1a1a] w-screen h-[100%] text-[#ffffff] space-y-15 px-10">
-      <section id="/" ref={homeRef}>
+    <div className="bg-black w-screen text-white overflow-x-hidden">
+      {/* ── Hero ── */}
+      <section id="/" ref={homeRef} className="relative z-10">
         <HeroPage />
       </section>
-      <section id="about" ref={aboutRef}>
+
+      <SectionDivider />
+
+      {/* ── About ── */}
+      <section
+        id="about"
+        ref={aboutRef}
+        className="relative z-10 py-24 px-6 md:px-20 max-w-7xl mx-auto"
+      >
         <About />
       </section>
-      <section id="bookFutsal" ref={bookFutsalRef}>
+
+      <SectionDivider />
+
+      {/* ── Book Futsal ── */}
+      <section
+        id="bookFutsal"
+        ref={bookFutsalRef}
+        className="relative z-10 py-24 px-6 md:px-20 max-w-7xl mx-auto"
+      >
         <BookFutsal />
       </section>
-      <section id="contact" ref={contactRef}>
+
+      <SectionDivider />
+
+      {/* ── Contact ── */}
+      <section
+        id="contact"
+        ref={contactRef}
+        className="relative z-10 py-24 px-6 md:px-20 max-w-7xl mx-auto"
+      >
         <Contact />
       </section>
+
+      {/* ── Footer bar ── */}
+      <footer className="relative z-10 border-t border-white/5 py-6 px-6 md:px-20 flex flex-col md:flex-row items-center justify-between gap-2">
+        <span className="text-xs text-white/20 tracking-widest uppercase">
+          Bibek Futsal · ArenaX
+        </span>
+        <span className="text-xs text-white/20">
+          © {new Date().getFullYear()} All rights reserved
+        </span>
+      </footer>
     </div>
   );
 };
