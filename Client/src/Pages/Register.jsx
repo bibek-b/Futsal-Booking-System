@@ -5,6 +5,7 @@ import footBallImg from "../assets/uclball.png";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../Context/AuthContext";
 import { useContext } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -34,7 +35,7 @@ const Register = () => {
       login(res.data.token);
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
-      setError(error.response.data.error || "Server error while register, Please try again");
+      toast.error(error.response.data.error || "Server error while register, Please try again");
     }
   };
 
@@ -63,6 +64,7 @@ const Register = () => {
             name="username"
             className="border rounded p-2 w-80 "
             placeholder="Immortal"
+            required
           />
           <label htmlFor="email">Email:</label>
           <input
@@ -70,6 +72,7 @@ const Register = () => {
             name="email"
             className="border rounded p-2 w-80 "
             placeholder="Immortal@gmail.com"
+            required
           />
           <label htmlFor="phNo">Phone Number:</label>
           <input
@@ -84,6 +87,7 @@ const Register = () => {
             name="password"
             className="border rounded p-2 w-80 "
             placeholder="Password"
+            required
           />
           <label htmlFor="password">Confirm Password:</label>
           <input
@@ -91,6 +95,7 @@ const Register = () => {
             name="confirmPassword"
             className="border rounded p-2 w-80 "
             placeholder="Confirm Password"
+            required
           />
         </div>
         <div className="text-[17px]">

@@ -5,6 +5,7 @@ import useFetchUser from "../CustomHooks/useFetchUser.js";
 import { SocketContext } from "../Context/SocketContext.jsx";
 import { motion } from "framer-motion";
 import { fadeInRight, staggerContainer } from "../animations/Variants.js";
+import { toast } from "react-toastify";
 
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
@@ -51,7 +52,7 @@ const FutsalTime = ({ selectDate }) => {
 
   const handleBooking = async (startTime, id) => {
     if (!currentUser) {
-      alert("You have to login/sign up for booking!");
+      toast.error("You have to login/sign up for booking!");
       return;
     }
     const userChoice = confirm("Do you want to book this time slot?");
@@ -64,7 +65,7 @@ const FutsalTime = ({ selectDate }) => {
       );
 
       if (!checkAvail.data.available) {
-        alert("Sorry, this slot was just booked by someone else!");
+        toast.error("Sorry, this slot was just booked by someone else!");
         return;
       }
 
@@ -75,9 +76,9 @@ const FutsalTime = ({ selectDate }) => {
       });
       setChangeBooking((prev) => [...prev, id]);
       sendBooking(currentUser?._id, startTime, date);
-      alert("Booking successful!");
+      toast.success("Booking successful!");
     } catch (error) {
-      alert("Failed to add booking!");
+      toast.error("Failed to add booking!");
     }
   };
 

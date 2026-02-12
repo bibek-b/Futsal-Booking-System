@@ -4,6 +4,7 @@ import apiRequest from "../API REQUEST/apiRequest";
 import { AuthContext } from "../Context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import footBallImg from "../assets/uclball.png";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -24,7 +25,7 @@ const Login = () => {
       login(res.data.token);
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
-      setError(error.response.data.error || "Server error while login, Please try again");
+      toast.error(error.response.data.error || "Server error while login, Please try again");
     }
   };
 
