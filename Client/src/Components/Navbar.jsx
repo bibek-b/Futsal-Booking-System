@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import user from "../assets/user.webp";
 import useFetchUser from "../CustomHooks/useFetchUser";
@@ -18,9 +18,9 @@ const Navbar = () => {
   const setActiveLink = useActiveSectionStore((state) => state.setActiveSection);
   const isHome = useIsHome();
   const [scrolled, setScrolled] = useState(false);
-  
+  const location = useLocation();
   useEffect(() => {
-   
+    setActiveLink(location.pathname)
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
