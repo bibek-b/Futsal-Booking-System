@@ -5,9 +5,12 @@ import App from "./App.jsx";
 import { AuthContextProvider } from "./Context/AuthContext.jsx";
 import { SocketContextProvider } from "./Context/SocketContext.jsx";
 import { ToastContainer } from "react-toastify";
+import { LoaderContextProvider } from "./Context/LoaderContext.jsx";
+import GlobalLoader from "./Components/common/GlobalLoader.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <AuthContextProvider>
+  <LoaderContextProvider>
+    <AuthContextProvider>
     <SocketContextProvider>
       <StrictMode>
         <App />
@@ -17,7 +20,9 @@ createRoot(document.getElementById("root")).render(
           theme="light"
           pauseOnFocus
         />
+        <GlobalLoader />
       </StrictMode>
     </SocketContextProvider>
-  </AuthContextProvider>,
+  </AuthContextProvider>
+  </LoaderContextProvider>,
 );
