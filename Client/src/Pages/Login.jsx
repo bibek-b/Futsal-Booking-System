@@ -23,7 +23,7 @@ const Login = () => {
     const { email, password } = Object.fromEntries(formData);
 
     try {
-      setLoading(true);
+      setLoading();
       const res = await apiRequest.post("/auth/login", { email, password });
       const token = jwtDecode(res.data.token);
       login(res.data.token);
@@ -33,7 +33,7 @@ const Login = () => {
         error.response?.data?.error || "Server error while login, please try again"
       );
     } finally {
-      setLoading(false);
+      setLoading();
     }
   };
 
