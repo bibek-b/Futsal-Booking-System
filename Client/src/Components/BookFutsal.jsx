@@ -13,7 +13,7 @@ const BookFutsal = () => {
   useScrollTop();
   return (
     <div
-      className={`flex justify-center items-center flex-col gap-10 ${!isHome && "mt-30"}   bg-[#1a1a1a] text-white w-full h-[100%]`}
+      className={`flex justify-center items-center flex-col gap-10 ${!isHome && "mt-30"} text-white w-full h-[100%]`}
     >
         <motion.div initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.5}} variants={fadeUp} className="text-center mb-10">
           <h1 className="text-5xl  text-[#00ff87]">Book Your Futsal Time</h1>
