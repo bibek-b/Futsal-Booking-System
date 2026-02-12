@@ -3,7 +3,7 @@ import { timeSlots } from "../constants/TimeSlot.js";
 import apiRequest from "../API REQUEST/apiRequest.js";
 import useFetchUser from "../CustomHooks/useFetchUser.js";
 import { SocketContext } from "../Context/SocketContext.jsx";
-import { motion, time } from "framer-motion";
+import { motion } from "framer-motion";
 import { fadeInRight, staggerContainer } from "../animations/Variants.js";
 import { toast } from "react-toastify";
 import { LoaderContext } from "../Context/LoaderContext.jsx";
@@ -12,33 +12,28 @@ import { parseHour } from "../utils/timeUtils.js";
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
   const { sendBooking, booking, socket } = useContext(SocketContext);
-  const [showMore, setShowMore] = useState(false);
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings]           = useState([]);
   const [changeBooking, setChangeBooking] = useState([]);
-  const { showLoading, hideLoading } = useContext(LoaderContext);
-  const date = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
-  const todaysDate = new Date()
-    .toISOString()
-    .split("T")[0]
-    .replaceAll("-", "/");
-  //update booking status immediatly (socket)
+  const { showLoading, hideLoading }      = useContext(LoaderContext);
+
+  const date       = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
+  const todaysDate = new Date().toISOString().split("T")[0].replaceAll("-", "/");
+
+  // ── socket: new booking ──
   useEffect(() => {
     setBookings((prev) => [...prev, ...booking]);
   }, [booking]);
+
+  // ── socket: removed booking ──
   useEffect(() => {
     if (!socket) return;
-
-    const handleRemoveBooking = ({ startTime }) => {
+    const handleRemoveBooking = ({ startTime }) =>
       setBookings((prev) => prev.filter((p) => p.startTime !== startTime));
-    };
-
     socket.on("receive-remove-booking", handleRemoveBooking);
-
-    return () => {
-      socket.off("receive-remove-booking", handleRemoveBooking);
-    };
+    return () => socket.off("receive-remove-booking", handleRemoveBooking);
   }, [socket]);
 
+  // ── fetch bookings for selected date ──
   useEffect(() => {
     const fetchAllBookings = async () => {
       try {
@@ -46,8 +41,7 @@ const FutsalTime = ({ selectDate }) => {
         const res = await apiRequest.get("/booking/all?date=" + date);
         setBookings(res.data);
       } catch (error) {
-        console.log(error);
-        toast.error(error.response.data.error || "Error fetching bookings");
+        toast.error(error.response?.data?.error || "Error fetching bookings");
       } finally {
         hideLoading();
       }
@@ -61,20 +55,17 @@ const FutsalTime = ({ selectDate }) => {
       return;
     }
     const userChoice = confirm("Do you want to book this time slot?");
-
     if (!userChoice) return;
 
     try {
       showLoading();
       const checkAvail = await apiRequest.get(
-        `/booking/check?date=${date}&startTime=${startTime}`,
+        `/booking/check?date=${date}&startTime=${startTime}`
       );
-
       if (!checkAvail.data.available) {
         toast.error("Sorry, this slot was just booked by someone else!");
         return;
       }
-
       await apiRequest.post("/booking/add", {
         userId: currentUser._id,
         startTime,
@@ -83,42 +74,71 @@ const FutsalTime = ({ selectDate }) => {
       setChangeBooking((prev) => [...prev, id]);
       sendBooking(currentUser?._id, startTime, date);
       toast.success("Booking successful!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to add booking!");
     } finally {
       hideLoading();
     }
   };
 
-  const bookedTime = new Set(bookings?.map((b) => b.startTime));
+  const bookedTime   = new Set(bookings?.map((b) => b.startTime));
+  const requiredDay  = selectDate.getDate();
+  const currentDay   = new Date().getDate();
+  const currentHour  = new Date().getHours();
+  const isFutureDay  = requiredDay > currentDay;
 
-  //show the time ahead of current time
-  const requiredDay = selectDate.getDate(); //get the day from parent date
-  const currentDay = new Date().getDate(); //get the today's day
-  const currentHour = new Date().getHours();
+  const visibleSlots = isFutureDay
+    ? timeSlots
+    : timeSlots.filter((t) => parseHour(t.startTime) > currentHour);
 
-  const visibleSlots =
-    requiredDay > currentDay
-      ? timeSlots
-      : timeSlots.filter((t) => parseHour(t.startTime) > currentHour);
+  const bookedCount    = visibleSlots.filter((t) =>
+    bookedTime.has(t.startTime) || changeBooking.includes(t.id)
+  ).length;
+  const availableCount = visibleSlots.length - bookedCount;
 
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-6 transition-opacity px-4 relative">
-      {requiredDay > currentDay && (
-        <div className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-sm px-4 py-2 rounded-lg">
-          <span>⚠️</span>
+    <div className="w-full space-y-8">
+
+      {/* ── tomorrow notice ── */}
+      {isFutureDay && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-3 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-sm px-4 py-3 rounded-xl"
+        >
+          <span className="text-base">⚠️</span>
           <span>
-            Today's booking slots are finished. Showing available slots for
-            tomorrow.
+            Today's slots are finished — showing available slots for tomorrow.
+          </span>
+        </motion.div>
+      )}
+
+      {/* ── summary bar ── */}
+      <div className="flex items-center gap-6 text-sm">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-[#00ff87]" />
+          <span className="text-white/50">
+            <span className="text-white font-semibold">{availableCount}</span> Available
           </span>
         </div>
-      )}
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-red-500/70" />
+          <span className="text-white/50">
+            <span className="text-white font-semibold">{bookedCount}</span> Booked
+          </span>
+        </div>
+        <div className="ml-auto text-white/25 text-xs">
+          {visibleSlots.length} slots total
+        </div>
+      </div>
+
+      {/* ── slots grid ── */}
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
         variants={staggerContainer}
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 "
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
         {visibleSlots.map((t) => {
           const hasBooked =
@@ -128,48 +148,51 @@ const FutsalTime = ({ selectDate }) => {
             <motion.div
               variants={fadeInRight}
               key={t.id}
-              className={`flex flex-col justify-between items-center text-center space-y-3 p-4 rounded-lg shadow-md transition-transform duration-300 ${
+              className={`group relative flex flex-col justify-between p-5 rounded-2xl border transition-all duration-300 ${
                 hasBooked
-                  ? "bg-[#2a2a2a] text-gray-500"
-                  : "bg-[#1f1f1f] hover:scale-105 hover:shadow-xl"
+                  ? "bg-white/[0.02] border-white/5 opacity-50"
+                  : "bg-white/[0.04] border-white/10 hover:border-[#00ff87]/40 hover:bg-[#00ff87]/5 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,255,135,0.08)]"
               }`}
             >
-              <p className="text-xl font-semibold text-white">
-                {t.startTime} - {t.endTime}
-              </p>
+              {/* time */}
+              <div className="mb-4">
+                <p className="text-xs text-white/30 uppercase tracking-widest mb-1">
+                  Time Slot
+                </p>
+                <p className={`text-lg font-bold ${hasBooked ? "text-white/30" : "text-white"}`}>
+                  {t.startTime}
+                  <span className="text-white/30 font-normal"> – </span>
+                  {t.endTime}
+                </p>
+              </div>
 
-              <span
-                className={`text-sm font-medium px-3 py-1 rounded-full ${
-                  hasBooked
-                    ? "bg-red-500 text-white"
-                    : "bg-green-500 text-white animate-pulse"
-                }`}
-              >
-                {hasBooked ? "Booked" : "Available"}
-              </span>
-
-              {!hasBooked && date >= todaysDate && (
-                <button
-                  onClick={() => handleBooking(t.startTime, t.id)}
-                  className="mt-2 bg-[#00ff87] text-black px-4 py-2 rounded hover:bg-[#00ff8886] transition cursor-pointer"
+              {/* status badge */}
+              <div className="flex items-center justify-between">
+                <span
+                  className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                    hasBooked
+                      ? "bg-red-500/15 text-red-400 border border-red-500/20"
+                      : "bg-[#00ff87]/10 text-[#00ff87] border border-[#00ff87]/20"
+                  }`}
                 >
-                  Book Now
-                </button>
-              )}
+                  {hasBooked ? "● Booked" : "● Available"}
+                </span>
+
+                {!hasBooked && date >= todaysDate && (
+                  <button
+                    onClick={() => handleBooking(t.startTime, t.id)}
+                    className="text-xs font-bold text-black bg-[#00ff87] px-3 py-1.5 rounded-full
+                               hover:bg-[#00ff87]/80 transition-all duration-200 cursor-pointer
+                               shadow-[0_0_12px_rgba(0,255,135,0.2)] hover:shadow-[0_0_20px_rgba(0,255,135,0.4)]"
+                  >
+                    Book →
+                  </button>
+                )}
+              </div>
             </motion.div>
           );
         })}
       </motion.div>
-
-      {/* Show More Button */}
-      {/* <div className="text-center">
-        <button
-          className="border border-white bg-white text-black rounded px-6 py-2 hover:bg-gray-200 transition-all duration-300"
-          onClick={handleShowMore}
-        >
-          {showMore ? "Show Less" : "Show More"}
-        </button>
-      </div> */}
     </div>
   );
 };
