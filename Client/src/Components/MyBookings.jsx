@@ -6,12 +6,15 @@ import PendingIcon from "../assets/pending.svg";
 import { useIsHome } from "../CustomHooks/useIsHome.js";
 import { LoaderContext } from "../Context/LoaderContext.jsx";
 import { toast } from "react-toastify";
+import { useScrollTop } from "../CustomHooks/useScrollTop.js";
 
 const MyBookings = () => {
   const currentUser = useFetchUser();
   const [userBookings, setUserBookings] = useState([]);
   const isHome = useIsHome();
   const { showLoading, hideLoading } = useContext(LoaderContext);
+
+  useScrollTop();
 
   useEffect(() => {
     const fetchBookings = async () => {
