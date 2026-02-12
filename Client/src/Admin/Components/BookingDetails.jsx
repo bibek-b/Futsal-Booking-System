@@ -1,6 +1,6 @@
 import { use, useContext, useEffect, useState } from "react";
 import apiRequest from "../../API REQUEST/apiRequest";
-import { timeSlots } from "../../Library/TimeSlot";
+import { timeSlots } from "../../constants/TimeSlot";
 import useFetchUser from "../../CustomHooks/useFetchUser";
 import PendingIcon from "../../assets/pending.svg";
 import { SocketContext } from "../../Context/SocketContext";

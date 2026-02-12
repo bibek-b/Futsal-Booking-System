@@ -6,10 +6,12 @@ import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../Context/AuthContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import { LoaderContext } from "../Context/LoaderContext";
 
 const Register = () => {
   const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
+  const { showLoading, hideLoading } = useContext(LoaderContext);
 
   const navigate = useNavigate();
 
@@ -30,13 +32,17 @@ const Register = () => {
       return setError("Passwords doesn't match");
 
     try {
+      showLoading();
       const res = await apiRequest.post("/auth/register", newUser);
       const token = jwtDecode(res.data.token);
       login(res.data.token);
       navigate(token.role === "admin" ? "/admin" : "/");
     } catch (error) {
-      toast.error(error.response.data.error || "Server error while register, Please try again");
-    }
+      console.log(error.response.data)
+      toast.error(error?.response?.data?.error || "Server error while register, Please try again");
+    } finally {
+        hideLoading();
+      }
   };
 
   return (

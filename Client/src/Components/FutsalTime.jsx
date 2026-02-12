@@ -1,11 +1,12 @@
 import { useEffect, useState, useContext } from "react";
-import { timeSlots } from "../Library/TimeSlot.js";
+import { timeSlots } from "../constants/TimeSlot.js";
 import apiRequest from "../API REQUEST/apiRequest.js";
 import useFetchUser from "../CustomHooks/useFetchUser.js";
 import { SocketContext } from "../Context/SocketContext.jsx";
 import { motion } from "framer-motion";
 import { fadeInRight, staggerContainer } from "../animations/Variants.js";
 import { toast } from "react-toastify";
+import { LoaderContext } from "../Context/LoaderContext.jsx";
 
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
@@ -13,6 +14,7 @@ const FutsalTime = ({ selectDate }) => {
   const [showMore, setShowMore] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [changeBooking, setChangeBooking] = useState([]);
+  const { showLoading, hideLoading } = useContext(LoaderContext);
 
   const date = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
   const todaysDate = new Date()
@@ -41,10 +43,14 @@ const FutsalTime = ({ selectDate }) => {
   useEffect(() => {
     const fetchAllBookings = async () => {
       try {
+        showLoading();
         const res = await apiRequest.get("/booking/all?date=" + date);
         setBookings(res.data);
       } catch (error) {
         console.log(error);
+        toast.error(error.response.data.error || "Error fetching bookings")
+      } finally {
+        hideLoading();
       }
     };
     fetchAllBookings();
@@ -60,6 +66,7 @@ const FutsalTime = ({ selectDate }) => {
     if (!userChoice) return;
 
     try {
+      showLoading();
       const checkAvail = await apiRequest.get(
         `/booking/check?date=${date}&startTime=${startTime}`
       );
@@ -79,12 +86,11 @@ const FutsalTime = ({ selectDate }) => {
       toast.success("Booking successful!");
     } catch (error) {
       toast.error("Failed to add booking!");
-    }
+    } finally {
+        hideLoading();
+      }
   };
 
-  const handleShowMore = () => {
-    setShowMore(!showMore);
-  };
 
 
   const bookedTime = new Set(bookings?.map((b) => b.startTime));

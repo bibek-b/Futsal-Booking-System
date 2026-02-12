@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import apiRequest from "../../API REQUEST/apiRequest";
 import useFetchUser from "../../CustomHooks/useFetchUser";
-import { timeSlots } from "../../Library/TimeSlot";
+import { timeSlots } from "../../constants/TimeSlot";
 import { Link } from "react-router-dom";
 
 const MyBookingsAdmin = () => {

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { timeSlots } from "../../Library/TimeSlot";
+import { timeSlots } from "../../constants/TimeSlot";
 import apiRequest from "../../API REQUEST/apiRequest";
 import useFetchUser from "../../CustomHooks/useFetchUser";
 import { SocketContext } from "../../Context/SocketContext";

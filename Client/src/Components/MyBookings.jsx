@@ -1,22 +1,28 @@
-import { useEffect, useState } from "react";
-import { timeSlots } from "../Library/TimeSlot.js";
+import { useContext, useEffect, useState } from "react";
+import { timeSlots } from "../constants/TimeSlot.js";
 import apiRequest from "../API REQUEST/apiRequest.js";
 import useFetchUser from "../CustomHooks/useFetchUser.js";
 import PendingIcon from "../assets/pending.svg";
 import { useIsHome } from "../CustomHooks/useIsHome.js";
+import { LoaderContext } from "../Context/LoaderContext.jsx";
+import { toast } from "react-toastify";
 
 const MyBookings = () => {
   const currentUser = useFetchUser();
   const [userBookings, setUserBookings] = useState([]);
-    const isHome = useIsHome();
-  
+  const isHome = useIsHome();
+  const { showLoading, hideLoading } = useContext(LoaderContext);
+
   useEffect(() => {
     const fetchBookings = async () => {
       try {
+        showLoading();
         const res = await apiRequest.get("/booking/" + currentUser?._id);
         setUserBookings(res.data);
       } catch (error) {
-        console.log(error);
+        toast.error(error);
+      } finally {
+        hideLoading();
       }
     };
     fetchBookings();
@@ -28,7 +34,9 @@ const MyBookings = () => {
   const userBookedSlots = timeSlots.filter((t) => bookSet.has(t.startTime));
 
   return (
-    <div className={`bg-[#1a1a1a] text-white h-screen w-full ${!isHome && "md:mt-25 md:mb-20 mt-30 px-5"}`}>
+    <div
+      className={`bg-[#1a1a1a] text-white h-screen w-full ${!isHome && "md:mt-25 md:mb-20 mt-30 px-5"}`}
+    >
       <div className="w-full p-2 mt-10 flex items-center justify-center flex-col space-y-10">
         <h1 className="text-5xl font-bold">Your Booking Details</h1>
         <div className="space-y-10 p-4  w-full flex items-center justify-center flex-col">
