@@ -18,7 +18,13 @@ const Register = async (req, res) => {
 
     return res.status(200).json({ message: "User Created Succesfully", user, token });
   } catch (error) {
-    console.log(error);
+      // Handle duplicate key error
+  if (error.code === 11000) {
+    const field = Object.keys(error.keyPattern)[0]; // gets "phoneNum"
+    return res.status(400).json({ 
+      error: `${field} already exists. Please use a different one.` 
+    });
+  }
     return res.status(500).json({ error: error });
   }
 };
