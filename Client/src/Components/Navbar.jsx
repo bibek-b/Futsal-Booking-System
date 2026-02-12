@@ -18,8 +18,9 @@ const Navbar = () => {
   const setActiveLink = useActiveSectionStore((state) => state.setActiveSection);
   const isHome = useIsHome();
   const [scrolled, setScrolled] = useState(false);
-
+  
   useEffect(() => {
+   
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -95,6 +96,7 @@ const Navbar = () => {
               <li>
                 <Link
                   to="/myBookings"
+                  onClick={() => handleLinkClick("/myBookings")}
                   className="relative py-1 text-gray-300 transition-colors duration-300 hover:text-[#00ff87]"
                 >
                   My Bookings

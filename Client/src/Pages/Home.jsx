@@ -80,7 +80,6 @@ const Home = () => {
         <Contact />
       </section>
 
-      {/* ── Footer bar ── */}
      
     </div>
   );
