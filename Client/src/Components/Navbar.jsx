@@ -56,14 +56,14 @@ const Navbar = () => {
         {/* top accent line */}
         <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#00ff87] to-transparent opacity-60" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-18">
+        <div className="max-w-[90%] mx-auto px-4 sm:px-8 flex items-center justify-between h-18">
 
           {/* Logo */}
           <Link to="/" onClick={() => handleLinkClick("/")}>
             <img
-              src="/logo.png"
+              src="/logo.svg"
               alt="Logo"
-              className="w-24 h-24 md:w-36 md:h-36 object-cover mt-6"
+              className="w-24 h-24 md:w-fit md:h-22 object-cover mt-6"
             />
           </Link>
 
