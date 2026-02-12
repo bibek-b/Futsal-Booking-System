@@ -12,10 +12,7 @@ const Layout = () => {
   return (
     <div>
      <div>
-       {isHome && <img
-        src={arenaBg}
-        className="h-screen w-full  object-cover -z-10"
-      />}
+     
       <Navbar />
       <Outlet />
     </div>
