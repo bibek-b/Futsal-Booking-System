@@ -1,73 +1,159 @@
-import { useEffect } from "react";
-import { fadeLeft, fadeUp } from "../animations/Variants";
-import Connect from "../assets/getInTouchIcon.svg";
+import { fadeUp } from "../animations/Variants";
 import { useIsHome } from "../CustomHooks/useIsHome";
 import FutsalMap from "./FutsalMap";
 import { motion } from "framer-motion";
 import { useScrollTop } from "../CustomHooks/useScrollTop";
 
+const inputClass = `
+  w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm
+  placeholder:text-white/25 focus:outline-none focus:border-[#00ff87]/50
+  focus:bg-[#00ff87]/5 transition-all duration-300
+`;
+
 const Contact = () => {
   const isHome = useIsHome();
-
-useScrollTop();
+  useScrollTop();
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  return (
-    <div className={`w-full min-h-screen md:p-10 flex flex-col items-center gap-15 ${!isHome && "md:mt-15 md:mb-20 mt-30 px-5"}`}>
-      <motion.h1 className="text-5xl  text-[#0cb455]" initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.3}} variants={fadeUp}>Contact Us</motion.h1>
-     <div  className="md:flex gap-10 space-y-10">
-       <motion.form initial={{opacity: 0, x: -20}} whileInView={{opacity: 1, x: 0}} viewport={{once: true, amount: 0.1}} transition={{duration: 0.5}} className="flex flex-col gap-4 md:w-[50%]" onSubmit={handleSubmit}>
-        <div className="space-y-5">
-          <h2 className=" flex gap-2 ">
-            <span className="opacity-60 md:text-3xl text-xl tracking-widest">Get in Touch</span>{" "}
-            <img src={Connect} alt="get in touch" className="w-10" />
-          </h2>
-          <span className="text-[#fc8b3a] md:text-[18px]">
-            Have a question or feedback? Fill out the form below and we'll get
-            back to you as soon as possible.
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name">Your Name</label>
-          <input
-            type="text"
-            name="name"
-            required
-            placeholder="Write Your Name"
-            className="border rounded p-2 w-[60%] outline-none text-[18px]"
-          />
-          <label htmlFor="email">Your Email</label>
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder="Write Your Email"
-            className="border rounded p-2 w-[60%] outline-none text-[18px]"
-          />
-          <label htmlFor="message">Your Message</label>
-          <textarea
-            name="message"
-            placeholder="Write Your Message"
-            required
-            rows={4}
-            className="border resize-none p-2 rounded outline-none text-[18px]"
-          ></textarea>
-          <button
-            type="submit"
-            className=" p-2 w-25 bg-[#ff6b00] hover:bg-[#ff6a00a0] outline-0 rounded cursor-pointer"
-          >
-            Submit
-          </button>
-        </div>
-      </motion.form>
 
-      <div className="md:h-200 h-150 md:w-200">
-        <FutsalMap />
-         <a href="https://google.com/maps?q=27.8292,84.944" target='_blank' rel='noopener noreferrer' className='block text-center mt-4 text-blue-500 hover:underline text-xl'>📍 Open in Google Maps</a>
+  return (
+    <div className={`w-full ${!isHome && "md:mt-15 md:mb-20 mt-30 px-5"}`}>
+
+      {/* ── section label ── */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="flex items-center gap-3 mb-10"
+      >
+        <span className="w-6 h-px bg-[#00ff87]" />
+        <span className="text-[#00ff87] text-xs font-semibold tracking-[0.25em] uppercase">
+          Get in Touch
+        </span>
+      </motion.div>
+
+      {/* ── heading ── */}
+      <motion.h1
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeUp}
+        className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-12"
+      >
+        Contact <span className="text-[#00ff87]">Us</span>
+      </motion.h1>
+
+      {/* ── two-col layout ── */}
+      <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-start">
+
+        {/* ── form ── */}
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6 }}
+          className="w-full md:w-[45%]"
+        >
+          {/* form intro */}
+          <p className="text-white/40 text-sm md:text-base leading-relaxed mb-8">
+            Have a question or feedback? Fill out the form and we'll get back to
+            you as soon as possible.
+          </p>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+
+            {/* name */}
+            <div className="space-y-1.5">
+              <label className="text-xs text-white/50 uppercase tracking-widest font-semibold">
+                Your Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="e.g. Bibek Bk"
+                className={inputClass}
+              />
+            </div>
+
+            {/* email */}
+            <div className="space-y-1.5">
+              <label className="text-xs text-white/50 uppercase tracking-widest font-semibold">
+                Your Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+                className={inputClass}
+              />
+            </div>
+
+            {/* message */}
+            <div className="space-y-1.5">
+              <label className="text-xs text-white/50 uppercase tracking-widest font-semibold">
+                Message
+              </label>
+              <textarea
+                name="message"
+                required
+                rows={5}
+                placeholder="Write your message here..."
+                className={`${inputClass} resize-none`}
+              />
+            </div>
+
+            {/* submit */}
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              type="submit"
+              className="w-fit bg-[#00ff87] text-black text-sm font-bold px-8 py-3 rounded-full
+                         shadow-[0_0_20px_rgba(0,255,135,0.3)] hover:shadow-[0_0_32px_rgba(0,255,135,0.5)]
+                         transition-all duration-300 cursor-pointer"
+            >
+              Send Message →
+            </motion.button>
+          </form>
+        </motion.div>
+
+        {/* ── map ── */}
+        <motion.div
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="w-full md:w-[55%] space-y-4"
+        >
+          {/* map container */}
+          <div className="w-full h-[320px] md:h-[420px] rounded-2xl overflow-hidden border border-white/10 relative">
+            <FutsalMap />
+
+            {/* corner accents */}
+            <div className="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 border-[#00ff87]/40 rounded-tl-lg pointer-events-none" />
+            <div className="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 border-[#00ff87]/40 rounded-br-lg pointer-events-none" />
+          </div>
+
+          {/* open in maps link */}
+          <a
+            href="https://google.com/maps?q=27.8292,84.944"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-white/40
+                       hover:text-[#00ff87] transition-colors duration-300 group"
+          >
+            <span className="text-base">📍</span>
+            <span className="group-hover:underline underline-offset-4">
+              Open in Google Maps
+            </span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </a>
+        </motion.div>
       </div>
-     </div>
     </div>
   );
 };
