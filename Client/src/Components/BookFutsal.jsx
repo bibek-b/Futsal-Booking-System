@@ -3,10 +3,13 @@ import FutsalTime from "./FutsalTime";
 import { useIsHome } from "../CustomHooks/useIsHome";
 import { motion } from "framer-motion";
 import {  fadeUp, scaleUp } from "../animations/Variants";
+import { useScrollTop } from "../CustomHooks/useScrollTop";
 
 const BookFutsal = () => {
   const [selectDate, setSelectDate] = useState(new Date());
   const isHome = useIsHome();
+
+  useScrollTop();
 
   return (
     <div

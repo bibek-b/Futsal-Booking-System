@@ -1,11 +1,14 @@
 
+import { useEffect } from "react";
 import { blurIn, fadeLeft, fadeUp } from "../animations/Variants";
 import aboutImg from "../assets/about.jpg";
 import { useIsHome } from "../CustomHooks/useIsHome";
 import { motion } from "framer-motion";
+import { useScrollTop } from "../CustomHooks/useScrollTop";
 
 const About = () => {
   const isHome = useIsHome();
+  useScrollTop();
 
   return (
     <div className={`w-full md:h-screen md:p-5 md:flex  space-y-10 gap-20 ${!isHome && 'md:px-25 md:mt-25 mt-30 px-5'}`}>

@@ -4,13 +4,12 @@ import Connect from "../assets/getInTouchIcon.svg";
 import { useIsHome } from "../CustomHooks/useIsHome";
 import FutsalMap from "./FutsalMap";
 import { motion } from "framer-motion";
+import { useScrollTop } from "../CustomHooks/useScrollTop";
 
 const Contact = () => {
   const isHome = useIsHome();
 
-  useEffect(() => {
-    window.scrollTo({top: 0})
-  },[])
+useScrollTop();
 
   const handleSubmit = (e) => {
     e.preventDefault();
