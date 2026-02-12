@@ -3,10 +3,11 @@ import { timeSlots } from "../constants/TimeSlot.js";
 import apiRequest from "../API REQUEST/apiRequest.js";
 import useFetchUser from "../CustomHooks/useFetchUser.js";
 import { SocketContext } from "../Context/SocketContext.jsx";
-import { motion } from "framer-motion";
+import { motion, time } from "framer-motion";
 import { fadeInRight, staggerContainer } from "../animations/Variants.js";
 import { toast } from "react-toastify";
 import { LoaderContext } from "../Context/LoaderContext.jsx";
+import { parseHour } from "../utils/timeUtils.js";
 
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
@@ -15,13 +16,11 @@ const FutsalTime = ({ selectDate }) => {
   const [bookings, setBookings] = useState([]);
   const [changeBooking, setChangeBooking] = useState([]);
   const { showLoading, hideLoading } = useContext(LoaderContext);
-
   const date = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
   const todaysDate = new Date()
     .toISOString()
     .split("T")[0]
     .replaceAll("-", "/");
-
   //update booking status immediatly (socket)
   useEffect(() => {
     setBookings((prev) => [...prev, ...booking]);
@@ -48,7 +47,7 @@ const FutsalTime = ({ selectDate }) => {
         setBookings(res.data);
       } catch (error) {
         console.log(error);
-        toast.error(error.response.data.error || "Error fetching bookings")
+        toast.error(error.response.data.error || "Error fetching bookings");
       } finally {
         hideLoading();
       }
@@ -68,7 +67,7 @@ const FutsalTime = ({ selectDate }) => {
     try {
       showLoading();
       const checkAvail = await apiRequest.get(
-        `/booking/check?date=${date}&startTime=${startTime}`
+        `/booking/check?date=${date}&startTime=${startTime}`,
       );
 
       if (!checkAvail.data.available) {
@@ -87,27 +86,47 @@ const FutsalTime = ({ selectDate }) => {
     } catch (error) {
       toast.error("Failed to add booking!");
     } finally {
-        hideLoading();
-      }
+      hideLoading();
+    }
   };
-
-
 
   const bookedTime = new Set(bookings?.map((b) => b.startTime));
 
+  //show the time ahead of current time
+  const requiredDay = selectDate.getDate(); //get the day from parent date
+  const currentDay = new Date().getDate(); //get the today's day
+  const currentHour = new Date().getHours();
+
+  const visibleSlots =
+    requiredDay > currentDay
+      ? timeSlots
+      : timeSlots.filter((t) => parseHour(t.startTime) > currentHour);
+
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-6 transition-opacity px-4">
-      <motion.div initial="hidden" whileInView="visible" viewport={{once: true, amount: 0.1}} variants={staggerContainer} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
-        {timeSlots.map((t, index) => {
+    <div className="w-full max-w-6xl mx-auto space-y-6 transition-opacity px-4 relative">
+      {requiredDay > currentDay && (
+        <div className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-sm px-4 py-2 rounded-lg">
+          <span>⚠️</span>
+          <span>
+            Today's booking slots are finished. Showing available slots for
+            tomorrow.
+          </span>
+        </div>
+      )}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        variants={staggerContainer}
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 "
+      >
+        {visibleSlots.map((t) => {
           const hasBooked =
             bookedTime.has(t.startTime) || changeBooking.includes(t.id);
-          {/* const showSlot = showMore || index < 8;
-
-          if (!showSlot) return null; */}
 
           return (
             <motion.div
-            variants={fadeInRight}
+              variants={fadeInRight}
               key={t.id}
               className={`flex flex-col justify-between items-center text-center space-y-3 p-4 rounded-lg shadow-md transition-transform duration-300 ${
                 hasBooked

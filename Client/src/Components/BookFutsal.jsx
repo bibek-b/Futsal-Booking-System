@@ -4,13 +4,13 @@ import { useIsHome } from "../CustomHooks/useIsHome";
 import { motion } from "framer-motion";
 import {  fadeUp, scaleUp } from "../animations/Variants";
 import { useScrollTop } from "../CustomHooks/useScrollTop";
+import { getInitialDate, getMinDate } from "../utils/dateUtils";
 
 const BookFutsal = () => {
-  const [selectDate, setSelectDate] = useState(new Date());
+  const [selectDate, setSelectDate] = useState(getInitialDate());
   const isHome = useIsHome();
 
   useScrollTop();
-
   return (
     <div
       className={`flex justify-center items-center flex-col gap-10 ${!isHome && "mt-30"}   bg-[#1a1a1a] text-white w-full h-[100%]`}
@@ -27,7 +27,7 @@ const BookFutsal = () => {
         </label>
         <input
           type="date"
-          min={new Date().toISOString().split("T")[0]}
+          min={getMinDate().toISOString().split("T")[0]}
           value={selectDate.toISOString().split("T")[0]}
           onChange={(e) => {
             const value = e.target.value;
