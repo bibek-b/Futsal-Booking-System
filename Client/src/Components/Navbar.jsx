@@ -7,13 +7,9 @@ import { useActiveSectionStore } from "../stores/activeSection";
 import { useIsHome } from "../CustomHooks/useIsHome";
 import menuBar from "../assets/menu.svg";
 import X from "../assets/cross.svg";
+import { NAV_LINKS } from "../constants/navbar";
 
-const NAV_LINKS = [
-  { id: 1, name: "Home", href: "/" },
-  { id: 2, name: "About Us", href: "about" },
-  { id: 3, name: "Book Futsal", href: "bookFutsal" },
-  { id: 4, name: "Contact Us", href: "contact" },
-];
+
 
 const Navbar = () => {
   const currentUser = useFetchUser();
@@ -54,6 +50,7 @@ const Navbar = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
+  
 
   return (
     <div>
