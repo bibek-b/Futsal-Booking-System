@@ -60,7 +60,7 @@ const MyBookings = () => {
 
   return (
     <div
-      className={`min-h-screen bg-black text-white ${!isHome && " px-5"}`}
+      className={`min-h-screen bg-black text-white ${!isHome && " md:py-10 pt-2 pb-10 bg-black"}`}
     >
       <div className="max-w-4xl mx-auto px-6 py-24 space-y-10">
         {/* ── header ── */}

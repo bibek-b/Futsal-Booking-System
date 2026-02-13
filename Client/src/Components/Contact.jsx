@@ -19,7 +19,7 @@ const Contact = () => {
   };
 
   return (
-    <div className={`w-full ${!isHome && "md:mt-15 md:mb-20 mt-30 px-5"}`}>
+    <div className={`w-full  ${!isHome && " md:px-14 px-5 pt-25 pb-10 bg-black"}`}>
 
       {/* ── section label ── */}
       <motion.div

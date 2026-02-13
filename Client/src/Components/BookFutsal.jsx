@@ -19,7 +19,7 @@ const BookFutsal = () => {
   });
 
   return (
-    <div className={`w-full ${!isHome && "mt-30"}`}>
+    <div className={`w-full ${!isHome && " md:px-14 px-5 pt-25 pb-10 bg-black"}`}>
 
       {/* ── section label ── */}
       <motion.div

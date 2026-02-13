@@ -16,8 +16,9 @@ const About = () => {
   useScrollTop();
 
   return (
-    <div className={`w-full ${!isHome && "md:px-25 md:mt-25 mt-30 px-5"}`}>
-
+    <div
+      className={`w-full ${!isHome && " md:px-14 px-5 pt-25 pb-10 bg-black"}`}
+    >
       {/* ── section label ── */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
@@ -34,10 +35,8 @@ const About = () => {
 
       {/* ── main layout ── */}
       <div className="flex flex-col md:flex-row gap-16 md:gap-24 items-start">
-
         {/* ── left: text ── */}
         <div className="md:w-[55%] space-y-8">
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -45,8 +44,7 @@ const About = () => {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-5xl font-black leading-tight tracking-tight"
           >
-            About{" "}
-            <span className="text-[#00ff87]">Bibek Futsal</span>
+            About <span className="text-[#00ff87]">Bibek Futsal</span>
             <br />
             <span className="text-white/25 italic font-light">ArenaX</span>
           </motion.h1>
