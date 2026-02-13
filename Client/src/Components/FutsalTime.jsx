@@ -10,15 +10,16 @@ import { LoaderContext } from "../Context/LoaderContext.jsx";
 import { parseHour } from "../utils/timeUtils.js";
 import GlobalConfirmModal from "./common/GlobalConfirmModal.jsx";
 import { ConfirmModalContext } from "../Context/ConfirmModalContext.jsx";
-import { useLockBodyScroll } from "../CustomHooks/useLockBodyScroll.js";
 
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
-  const { sendBooking, booking, socket } = useContext(SocketContext);
+  const { sendBooking,  booking, socket } = useContext(SocketContext);
   const [bookings, setBookings] = useState([]);
   const [changeBooking, setChangeBooking] = useState([]);
   const { showLoading, hideLoading } = useContext(LoaderContext);
-  const { isShowModal, showConfirmModal } =useContext(ConfirmModalContext);
+  const { showConfirmModal, hideConfirmModal } =useContext(ConfirmModalContext);
+  const [startTime, setStartTime] = useState('');
+  const [bookingId, setBookingId] = useState('');
 
 
   const date = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
@@ -62,36 +63,37 @@ const FutsalTime = ({ selectDate }) => {
       toast.error("You have to login/sign up for booking!");
       return;
     }
-    // const userChoice = confirm("Do you want to book this time slot?");
-    // if (!userChoice) return;
-    showConfirmModal()
-
-    // try {
-    //   showLoading();
-    //   const checkAvail = await apiRequest.get(
-    //     `/booking/check?date=${date}&startTime=${startTime}`,
-    //   );
-    //   if (!checkAvail.data.available) {
-    //     toast.error("Sorry, this slot was just booked by someone else!");
-    //     return;
-    //   }
-    //   await apiRequest.post("/booking/add", {
-    //     userId: currentUser._id,
-    //     startTime,
-    //     date,
-    //   });
-    //   setChangeBooking((prev) => [...prev, id]);
-    //   sendBooking(currentUser?._id, startTime, date);
-    //   toast.success("Booking successful!");
-    // } catch {
-    //   toast.error("Failed to add booking!");
-    // } finally {
-    //   hideLoading();
-    // }
+    setStartTime(startTime);
+    setBookingId(id);
+    showConfirmModal();
+    
   };
 
   const bookSlot = async () => {
-    
+    try {
+      showLoading();
+      const checkAvail = await apiRequest.get(
+        `/booking/check?date=${date}&startTime=${startTime}`,
+      );
+      if (!checkAvail.data.available) {
+        toast.error("Sorry, this slot was just booked by someone else!");
+        return;
+      }
+      await apiRequest.post("/booking/add", {
+        userId: currentUser?._id,
+        startTime,
+        date,
+      });
+      setChangeBooking((prev) => [...prev, bookingId]);
+      sendBooking(currentUser?._id, startTime, date);
+      toast.success("Booking successful!");
+    } catch {
+      toast.error("Failed to add booking!");
+    } finally {
+      hideLoading();
+      hideConfirmModal();
+      
+    }
   }
 
   const bookedTime = new Set(bookings?.map((b) => b.startTime));
@@ -111,7 +113,7 @@ const FutsalTime = ({ selectDate }) => {
 
   return (
     <div className="w-full space-y-8">
-      <GlobalConfirmModal />
+      <GlobalConfirmModal title={"Confirm Booking"} detail={"You want to book this slot. This action cannot be undone."} onPress={bookSlot} />
       {/* ── tomorrow notice ── */}
       {isFutureDay && (
         <motion.div
@@ -197,7 +199,7 @@ const FutsalTime = ({ selectDate }) => {
 
                 {!hasBooked && date >= todaysDate && (
                   <button
-                    onClick={() => handleBooking(t.startTime, t.id)}
+                    onClick={() => handleBookingConfirm(t.startTime, t.id)}
                     className="text-xs font-bold text-black bg-[#00ff87] px-3 py-1.5 rounded-full
                                hover:bg-[#00ff87]/80 transition-all duration-200 cursor-pointer
                                shadow-[0_0_12px_rgba(0,255,135,0.2)] hover:shadow-[0_0_20px_rgba(0,255,135,0.4)]"

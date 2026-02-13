@@ -14,7 +14,7 @@ const GlobalConfirmModal = ({ title, detail, onPress }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={hideConfirmModal}
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-10 px-4"
       >
         {/* modal card — stop click propagation so backdrop click closes but card click doesn't */}
         <motion.div
@@ -36,10 +36,10 @@ const GlobalConfirmModal = ({ title, detail, onPress }) => {
               </div>
               <div className="space-y-1">
                 <h2 className="text-xl font-black tracking-tight text-white">
-                  {title || "Confirm Booking"}
+                  {title}
                 </h2>
                 <p className="text-white/50 text-sm leading-relaxed">
-                  {detail || "You want to book this slot. This action cannot be undone."}
+                  {detail }
                 </p>
               </div>
             </div>
