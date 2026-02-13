@@ -13,14 +13,14 @@ import { ConfirmModalContext } from "../Context/ConfirmModalContext.jsx";
 
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
-  const { sendBooking,  booking, socket } = useContext(SocketContext);
+  const { sendBooking, booking, socket } = useContext(SocketContext);
   const [bookings, setBookings] = useState([]);
   const [changeBooking, setChangeBooking] = useState([]);
   const { showLoading, hideLoading } = useContext(LoaderContext);
-  const { showConfirmModal, hideConfirmModal } =useContext(ConfirmModalContext);
-  const [startTime, setStartTime] = useState('');
-  const [bookingId, setBookingId] = useState('');
-
+  const { showConfirmModal, hideConfirmModal } =
+    useContext(ConfirmModalContext);
+  const [startTime, setStartTime] = useState("");
+  const [bookingId, setBookingId] = useState("");
 
   const date = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
   const todaysDate = new Date()
@@ -66,7 +66,6 @@ const FutsalTime = ({ selectDate }) => {
     setStartTime(startTime);
     setBookingId(id);
     showConfirmModal();
-    
   };
 
   const bookSlot = async () => {
@@ -92,15 +91,15 @@ const FutsalTime = ({ selectDate }) => {
     } finally {
       hideLoading();
       hideConfirmModal();
-      
     }
-  }
+  };
 
   const bookedTime = new Set(bookings?.map((b) => b.startTime));
   const requiredDay = selectDate.getDate();
   const currentDay = new Date().getDate();
   const currentHour = new Date().getHours();
   const isFutureDay = requiredDay > currentDay;
+  console.log(isFutureDay);
 
   const visibleSlots = isFutureDay
     ? timeSlots
@@ -113,7 +112,11 @@ const FutsalTime = ({ selectDate }) => {
 
   return (
     <div className="w-full space-y-8">
-      <GlobalConfirmModal title={"Confirm Booking"} detail={"You want to book this slot. This action cannot be undone."} onPress={bookSlot} />
+      <GlobalConfirmModal
+        title={"Confirm Booking"}
+        detail={"You want to book this slot. This action cannot be undone."}
+        onPress={bookSlot}
+      />
       {/* ── tomorrow notice ── */}
       {isFutureDay && (
         <motion.div
@@ -151,6 +154,7 @@ const FutsalTime = ({ selectDate }) => {
 
       {/* ── slots grid ── */}
       <motion.div
+      key={visibleSlots.length}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
@@ -160,7 +164,7 @@ const FutsalTime = ({ selectDate }) => {
         {visibleSlots.map((t) => {
           const hasBooked =
             bookedTime.has(t.startTime) || changeBooking.includes(t.id);
-
+          console.log(t)
           return (
             <motion.div
               variants={fadeInRight}
