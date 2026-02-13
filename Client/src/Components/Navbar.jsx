@@ -11,6 +11,13 @@ import { NAV_LINKS } from "../constants/navbar";
 import AccentLine from "./common/AccentLine";
 import { useLockBodyScroll } from "../CustomHooks/useLockBodyScroll";
 
+/*
+why setTimeOut at handleLinkClick func
+-Because navigate("/") is async — when you call it, React Router starts the navigation but the Home component hasn't mounted yet. So when you immediately call document.getElementById(link), the section elements don't exist in the DOM yet.
+navigate("/");
+document.getElementById("aboutUs")  // ❌ null — Home hasn't rendered yet
+*/
+
 const Navbar = () => {
   const currentUser = useFetchUser();
   const { token, logout } = useContext(AuthContext);
@@ -38,26 +45,34 @@ const Navbar = () => {
     navigate("/");
   };
 
-
-
   const handleLinkClick = (link) => {
-    console.log({link});
     setIsOpen(false);
-    if(link === "myBookings") {
-      return navigate('/myBookings')
+
+      // ── route navigations (not scroll targets) ──
+    if (link === "myBookings") {
+      navigate("/myBookings");
+      setActiveLink(link);
+      return;
     }
-    if(link === "/" && location?.pathname === "/myBookings") {
-    return navigate("/");
-    }
+
+      // ── home sections (scroll targets) ──
     link && setActiveLink(link);
-    const el = document.getElementById(link)
-    if(el) el.scrollIntoView({behavior: "smooth"});
 
-    // if (isHome && link === "/") {
-    //   window.scrollTo({ top: 0, behavior: "smooth" });
-    // }
-  }; 
+    if (location.pathname === "/myBookings" && link !== "myBookings") {
+       // not on home yet, navigate first then scroll
+      navigate("/");
+      setTimeout(() => {
+        if (link === "/")
+          return window.scrollTo({ top: 0, behavior: "smooth" });
+        document.getElementById(link)?.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+      return;
+    }
 
+    // already on home, just scroll
+    if (link === "/") return window.scrollTo({ top: 0, behavior: "smooth" });
+    document.getElementById(link)?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <>
       <nav
@@ -83,41 +98,36 @@ const Navbar = () => {
           {/* Desktop Nav Links */}
           <ul className="hidden md:flex items-center gap-8  font-medium tracking-wide">
             {NAV_LINKS.map((data) => (
-              <li key={data.id}>
-                <Link
-                  to="#"
-                  onClick={(e) => handleLinkClick(data.href)}
-                  className={`relative py-1 transition-colors duration-300 hover:text-[#00ff87] ${
-                    activeLink === data.href
-                      ? "text-[#00ff87]"
-                      : "text-gray-300"
+              <li
+                key={data.id}
+                // to="#"
+                onClick={(e) => handleLinkClick(data.href)}
+                className={`relative py-1 transition-colors duration-300 cursor-pointer hover:text-[#00ff87] ${
+                  activeLink === data.href ? "text-[#00ff87]" : "text-gray-300"
+                }`}
+              >
+                {data.name}
+                {/* active underline */}
+                <span
+                  className={`absolute -bottom-1 left-0 h-[2px] bg-[#00ff87] rounded-full transition-all duration-300 ${
+                    activeLink === data.href ? "w-full" : "w-0"
                   }`}
-                >
-                  {data.name}
-                  {/* active underline */}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-[2px] bg-[#00ff87] rounded-full transition-all duration-300 ${
-                      activeLink === data.href ? "w-full" : "w-0"
-                    }`}
-                  />
-                </Link>
+                />
               </li>
             ))}
 
             {currentUser && token && (
-              <li>
-                <Link
-                  to="#"
-                  onClick={() => handleLinkClick('myBookings')}
-                  className="relative py-1 text-gray-300 transition-colors duration-300 hover:text-[#00ff87]"
-                >
-                  My Bookings
-                  <span
-                    className={`absolute -bottom-1 left-0 h-[2px] bg-[#00ff87] rounded-full transition-all duration-300 ${
-                      activeLink === "/myBookings" ? "w-full" : "w-0"
-                    }`}
-                  />
-                </Link>
+              <li
+                // to="#"
+                onClick={() => handleLinkClick("myBookings")}
+                className="relative py-1 text-gray-300 transition-colors cursor-pointer duration-300 hover:text-[#00ff87]"
+              >
+                My Bookings
+                <span
+                  className={`absolute -bottom-1 left-0 h-[2px] bg-[#00ff87] rounded-full transition-all duration-300 ${
+                    activeLink === "myBookings" ? "w-full" : "w-0"
+                  }`}
+                />
               </li>
             )}
           </ul>
