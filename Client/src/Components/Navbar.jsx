@@ -30,8 +30,9 @@ const Navbar = () => {
   const isHome = useIsHome();
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
   useEffect(() => {
-    setActiveLink(location.pathname);
+    setActiveLink(location.pathname.split('/')[1]);
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -58,7 +59,7 @@ const Navbar = () => {
       // ── home sections (scroll targets) ──
     link && setActiveLink(link);
 
-    if (location.pathname === "/myBookings" && link !== "myBookings") {
+    if (location !=='/') {
        // not on home yet, navigate first then scroll
       navigate("/");
       setTimeout(() => {
