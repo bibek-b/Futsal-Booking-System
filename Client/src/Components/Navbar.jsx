@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { data, Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import user from "../assets/user.webp";
 import useFetchUser from "../CustomHooks/useFetchUser";
@@ -9,47 +9,59 @@ import menuBar from "../assets/menu.svg";
 import X from "../assets/cross.svg";
 import { NAV_LINKS } from "../constants/navbar";
 import AccentLine from "./common/AccentLine";
+import { useLockBodyScroll } from "../CustomHooks/useLockBodyScroll";
 
 const Navbar = () => {
   const currentUser = useFetchUser();
   const { token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const activeLink = useActiveSectionStore((state) => state.activeSection);
-  const [isOpen, setIsOpen] = useState(false);
-  const setActiveLink = useActiveSectionStore((state) => state.setActiveSection);
+  const [isOpen, setIsOpen] = useState(false); //for mobile
+  const setActiveLink = useActiveSectionStore(
+    (state) => state.setActiveSection,
+  );
   const isHome = useIsHome();
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   useEffect(() => {
-    setActiveLink(location.pathname)
+    setActiveLink(location.pathname);
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // lock body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [isOpen]);
+  useLockBodyScroll(isOpen);
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
 
+
+
   const handleLinkClick = (link) => {
+    console.log({link});
     setIsOpen(false);
-    link && setActiveLink(link);
-    if (isHome && link === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    if(link === "myBookings") {
+      return navigate('/myBookings')
     }
-  };
+    if(link === "/" && location?.pathname === "/myBookings") {
+    return navigate("/");
+    }
+    link && setActiveLink(link);
+    const el = document.getElementById(link)
+    if(el) el.scrollIntoView({behavior: "smooth"});
+
+    // if (isHome && link === "/") {
+    //   window.scrollTo({ top: 0, behavior: "smooth" });
+    // }
+  }; 
 
   return (
     <>
       <nav
-        className={`w-full fixed top-0 z-[999] transition-all duration-500 ${
+        className={`w-full fixed top-0 z-[998] transition-all duration-500 ${
           scrolled
             ? "bg-black/90 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,255,135,0.07)]"
             : "bg-black/60 backdrop-blur-md"
@@ -59,7 +71,6 @@ const Navbar = () => {
         <AccentLine verticalPosition={"top-0"} />
 
         <div className="mx-auto px-4 sm:px-8 flex items-center justify-between h-18">
-
           {/* Logo */}
           <Link to="/" onClick={() => handleLinkClick("/")}>
             <img
@@ -74,8 +85,8 @@ const Navbar = () => {
             {NAV_LINKS.map((data) => (
               <li key={data.id}>
                 <Link
-                  to={data.href}
-                  onClick={() => handleLinkClick(data.href)}
+                  to="#"
+                  onClick={(e) => handleLinkClick(data.href)}
                   className={`relative py-1 transition-colors duration-300 hover:text-[#00ff87] ${
                     activeLink === data.href
                       ? "text-[#00ff87]"
@@ -96,8 +107,8 @@ const Navbar = () => {
             {currentUser && token && (
               <li>
                 <Link
-                  to="/myBookings"
-                  onClick={() => handleLinkClick("/myBookings")}
+                  to="#"
+                  onClick={() => handleLinkClick('myBookings')}
                   className="relative py-1 text-gray-300 transition-colors duration-300 hover:text-[#00ff87]"
                 >
                   My Bookings
@@ -162,14 +173,16 @@ const Navbar = () => {
             />
           </button>
         </div>
-       {/* bottom accent line */}
+        {/* bottom accent line */}
         <AccentLine verticalPosition={"bottom-0"} />
       </nav>
 
       {/* Mobile Menu Overlay */}
       <div
         className={`fixed inset-0 z-[998] transition-all duration-500 ${
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
       >
         {/* backdrop */}
@@ -186,7 +199,7 @@ const Navbar = () => {
         >
           {/* drawer header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-            <span className="text-[#00ff87] font-bold tracking-widest text-xs uppercase">
+            <span className="text-[#00ff87] font-bold tracking-widest text-xs uppercase z-[999]">
               Menu
             </span>
             <button
@@ -202,7 +215,7 @@ const Navbar = () => {
             {NAV_LINKS.map((data) => (
               <li key={data.id}>
                 <Link
-                  to={data.href}
+                  // to={data.href}
                   onClick={() => handleLinkClick(data.href)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                     activeLink === data.href
