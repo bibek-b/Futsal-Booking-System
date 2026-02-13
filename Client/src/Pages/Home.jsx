@@ -53,7 +53,7 @@ const Home = () => {
       <section
         id="about"
         ref={aboutRef}
-        className="relative z-10 py-24 px-6 md:px-20 max-w-7xl mx-auto"
+        className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
       >
         <About />
       </section>
@@ -64,7 +64,7 @@ const Home = () => {
       <section
         id="bookFutsal"
         ref={bookFutsalRef}
-        className="relative z-10 py-24 px-6 md:px-20 max-w-7xl mx-auto"
+        className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
       >
         <BookFutsal />
       </section>
@@ -75,7 +75,7 @@ const Home = () => {
       <section
         id="contact"
         ref={contactRef}
-        className="relative z-10 py-24 px-6 md:px-20 max-w-7xl mx-auto"
+        className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
       >
         <Contact />
       </section>
