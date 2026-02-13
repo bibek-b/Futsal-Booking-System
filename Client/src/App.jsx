@@ -22,7 +22,6 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
 
-          <Route path="/bookFutsal" element={<BookFutsal />} />
           <Route
             path="/myBookings"
             element={
@@ -31,8 +30,6 @@ const App = () => {
               </ProtectedMyBookings>
             }
           />
-          <Route path="/aboutUs" element={<About />} />
-          <Route path="/contactUs" element={<Contact />} />
         </Route>
 
         <Route path="/register" element={<Register />} />
