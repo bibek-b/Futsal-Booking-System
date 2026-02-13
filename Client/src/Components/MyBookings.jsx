@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { timeSlots } from "../constants/TimeSlot.js";
 import apiRequest from "../API REQUEST/apiRequest.js";
 import useFetchUser from "../CustomHooks/useFetchUser.js";
-import { useIsHome } from "../CustomHooks/useIsHome.js";
 import { LoaderContext } from "../Context/LoaderContext.jsx";
 import { toast } from "react-toastify";
 import { useScrollTop } from "../CustomHooks/useScrollTop.js";
@@ -34,7 +33,6 @@ const statusConfig = {
 const MyBookings = () => {
   const currentUser = useFetchUser();
   const [userBookings, setUserBookings] = useState([]);
-  const isHome = useIsHome();
   const { showLoading, hideLoading } = useContext(LoaderContext);
 
   useScrollTop();
@@ -60,7 +58,7 @@ const MyBookings = () => {
 
   return (
     <div
-      className={`min-h-screen bg-black text-white ${!isHome && " md:py-10 pt-2 pb-10 bg-black"}`}
+      className={`min-h-screen bg-black text-white md:py-10 pt-2 pb-10`}
     >
       <div className="max-w-4xl mx-auto px-6 py-24 space-y-10">
         {/* ── header ── */}

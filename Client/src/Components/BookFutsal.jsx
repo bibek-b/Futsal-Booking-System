@@ -1,6 +1,5 @@
 import { useState } from "react";
 import FutsalTime from "./FutsalTime";
-import { useIsHome } from "../CustomHooks/useIsHome";
 import { motion } from "framer-motion";
 import { fadeUp, scaleUp } from "../animations/Variants";
 import { useScrollTop } from "../CustomHooks/useScrollTop";
@@ -8,7 +7,6 @@ import { getInitialDate, getMinDate } from "../utils/dateUtils";
 
 const BookFutsal = () => {
   const [selectDate, setSelectDate] = useState(getInitialDate());
-  const isHome = useIsHome();
   useScrollTop();
 
   const formattedDate = new Date().toLocaleDateString("en-US", {
@@ -19,7 +17,7 @@ const BookFutsal = () => {
   });
 
   return (
-    <div className={`w-full ${!isHome && " md:px-14 px-5 pt-25 pb-10 bg-black"}`}>
+    <div className={`w-full md:px-14 px-5 pt-25 pb-10 bg-black`}>
 
       {/* ── section label ── */}
       <motion.div

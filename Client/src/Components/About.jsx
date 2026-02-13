@@ -1,6 +1,5 @@
 import { blurIn, fadeLeft } from "../animations/Variants";
 import aboutImg from "../assets/about.jpg";
-import { useIsHome } from "../CustomHooks/useIsHome";
 import { useScrollTop } from "../CustomHooks/useScrollTop";
 import { motion } from "framer-motion";
 
@@ -12,12 +11,11 @@ const stats = [
 ];
 
 const About = () => {
-  const isHome = useIsHome();
   useScrollTop();
 
   return (
     <div
-      className={`w-full ${!isHome && " md:px-14 px-5 pt-25 pb-10 bg-black"}`}
+      className={`w-full  md:px-14 px-5 pt-25 pb-10 bg-black`}
     >
       {/* ── section label ── */}
       <motion.div
