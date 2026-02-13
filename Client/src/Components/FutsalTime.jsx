@@ -95,11 +95,10 @@ const FutsalTime = ({ selectDate }) => {
   };
 
   const bookedTime = new Set(bookings?.map((b) => b.startTime));
-  const requiredDay = selectDate.getDate();
+  const selectedDate = selectDate.getDate();
   const currentDay = new Date().getDate();
   const currentHour = new Date().getHours();
-  const isFutureDay = requiredDay > currentDay;
-  console.log(isFutureDay);
+  const isFutureDay = selectedDate > currentDay;
 
   const visibleSlots = isFutureDay
     ? timeSlots
@@ -118,7 +117,7 @@ const FutsalTime = ({ selectDate }) => {
         onPress={bookSlot}
       />
       {/* ── tomorrow notice ── */}
-      {isFutureDay && (
+      {((currentDay + 1 === selectedDate) && isFutureDay) && (
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -164,7 +163,6 @@ const FutsalTime = ({ selectDate }) => {
         {visibleSlots.map((t) => {
           const hasBooked =
             bookedTime.has(t.startTime) || changeBooking.includes(t.id);
-          console.log(t)
           return (
             <motion.div
               variants={fadeInRight}
