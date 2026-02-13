@@ -8,6 +8,11 @@ import { toast } from "react-toastify";
 import { useScrollTop } from "../CustomHooks/useScrollTop.js";
 import { motion } from "framer-motion";
 
+/*
+The table not showing issue is -> animate="visible" fires immediately on mount - but  data isn't ready yet when the component first renders. So the animation runs once with empty userBookedSlots, and by the time data arrives there's no re-trigger.
+soln is: add key to motion.div -> key={userBookSlots.lenght}- // 👈 re-mounts & re-animates when data arrives
+*/
+
 const statusConfig = {
   pending: {
     label: "Pending",
@@ -35,18 +40,19 @@ const MyBookings = () => {
   useScrollTop();
 
   useEffect(() => {
+    if(!currentUser?._id) return;
     const fetchBookings = async () => {
       try {
         showLoading();
         const res = await apiRequest.get("/booking/" + currentUser?._id);
         setUserBookings(res.data);
       } catch (error) {
-        toast.error(error);
+        toast.error(error.response.data.error || "Error fetching user bookings");
       } finally {
         hideLoading();
       }
     };
-    if (currentUser?._id) fetchBookings();
+     fetchBookings();
   }, [currentUser?._id]);
 
   const bookSet = new Set(userBookings.map((u) => u.startTime));
@@ -104,6 +110,7 @@ const MyBookings = () => {
         ) : (
           /* ── bookings list ── */
           <motion.div
+          key={userBookedSlots.length} //// 👈 re-mounts & re-animates when data arrives
             initial="hidden"
             animate="visible"
             variants={{
