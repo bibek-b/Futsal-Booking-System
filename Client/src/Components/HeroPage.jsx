@@ -108,7 +108,7 @@ const HeroPage = () => {
             transition={{ delay: 0.9, duration: 0.7 }}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => window.scrollTo({ top: 1500, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 1520, behavior: "smooth" })}
             className="relative group bg-[#00ff87] text-black font-bold text-sm md:text-base px-8 py-3 rounded-full cursor-pointer shadow-[0_0_24px_rgba(0,255,135,0.35)] hover:shadow-[0_0_36px_rgba(0,255,135,0.55)] transition-all duration-300"
           >
             Book Now
@@ -123,7 +123,7 @@ const HeroPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.1, duration: 0.6 }}
-            onClick={() => window.scrollTo({ top: 760, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 740, behavior: "smooth" })}
             className="text-sm text-gray-500 hover:text-white underline underline-offset-4 transition-colors duration-300 cursor-pointer"
           >
             Learn more
