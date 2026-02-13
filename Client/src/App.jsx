@@ -31,8 +31,8 @@ const App = () => {
               </ProtectedMyBookings>
             }
           />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/aboutUs" element={<About />} />
+          <Route path="/contactUs" element={<Contact />} />
         </Route>
 
         <Route path="/register" element={<Register />} />
