@@ -8,6 +8,7 @@ import { useIsHome } from "../CustomHooks/useIsHome";
 import menuBar from "../assets/menu.svg";
 import X from "../assets/cross.svg";
 import { NAV_LINKS } from "../constants/navbar";
+import AccentLine from "./common/AccentLine";
 
 const Navbar = () => {
   const currentUser = useFetchUser();
@@ -55,7 +56,7 @@ const Navbar = () => {
         }`}
       >
         {/* top accent line */}
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#00ff87] to-transparent opacity-60" />
+        <AccentLine verticalPosition={"top-0"} />
 
         <div className="max-w-[90%] mx-auto px-4 sm:px-8 flex items-center justify-between h-18">
 
@@ -122,7 +123,7 @@ const Navbar = () => {
                     className="w-8 h-8 rounded-full object-cover ring-2 ring-[#00ff87]/40"
                   />
                   <span className="text-sm font-semibold text-white">
-                    {currentUser.userName}
+                    {currentUser.username}
                   </span>
                 </div>
                 <button
@@ -161,6 +162,8 @@ const Navbar = () => {
             />
           </button>
         </div>
+       {/* bottom accent line */}
+        <AccentLine verticalPosition={"bottom-0"} />
       </nav>
 
       {/* Mobile Menu Overlay */}
