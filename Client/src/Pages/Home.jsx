@@ -24,14 +24,14 @@ const Home = () => {
     threshold: 0,
     rootMargin: "-40% 0px -60% 0px",
   });
-
+  
   const setActiveLink = useActiveSectionStore(
     (state) => state.setActiveSection,
   );
-
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, []);
+  
+    useEffect(() => {
+      window.scrollTo({ top: 0 });
+    }, []);
 
   useEffect(() => {
     if (homeInView) setActiveLink("/");

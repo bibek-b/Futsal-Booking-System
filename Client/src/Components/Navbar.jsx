@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { data, Link, useLocation, useNavigate } from "react-router-dom";
+import {  Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import user from "../assets/user.webp";
 import useFetchUser from "../CustomHooks/useFetchUser";
 import { useActiveSectionStore } from "../stores/activeSection";
-import { useIsHome } from "../CustomHooks/useIsHome";
 import menuBar from "../assets/menu.svg";
 import X from "../assets/cross.svg";
 import { NAV_LINKS } from "../constants/navbar";
@@ -27,7 +26,6 @@ const Navbar = () => {
   const setActiveLink = useActiveSectionStore(
     (state) => state.setActiveSection,
   );
-  const isHome = useIsHome();
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
