@@ -243,7 +243,7 @@ const Navbar = () => {
                     className="w-9 h-9 rounded-full object-cover ring-2 ring-[#00ff87]/40"
                   />
                   <span className="text-sm font-semibold text-white">
-                    {currentUser.userName}
+                    {currentUser.username}
                   </span>
                 </div>
                 <button
