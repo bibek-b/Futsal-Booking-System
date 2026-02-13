@@ -6,6 +6,7 @@ import { AuthContext } from "../Context/AuthContext";
 import { LoaderContext } from "../Context/LoaderContext";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import { validateRegister } from "../validations/authFormValidations";
 
 const inputClass = `
   w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm
@@ -26,8 +27,11 @@ const Register = () => {
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
 
-    if (inputs.password !== inputs.confirmPassword) {
-      return setError("Passwords don't match");
+    const isValid = validateRegister(inputs);
+    console.log(isValid)
+    if(!isValid.valid) {
+      setError(isValid.message);
+      return;
     }
 
     const newUser = {
@@ -35,7 +39,7 @@ const Register = () => {
       email: inputs.email,
       password: inputs.password,
       confirmPassword: inputs.confirmPassword,
-      phoneNum: inputs.phNo,
+      phoneNum: inputs.phoneNum,
     };
 
     try {
@@ -168,8 +172,14 @@ const Register = () => {
                 Phone Number
               </label>
               <input
-                type="tel"
-                name="phNo"
+                type="number"
+                name="phoneNum"
+                onKeyDown={(e) => {
+                  const inputLength = e.target.value.length;
+                  if(["e", "E", "+", "-"].includes(e.key) || inputLength === 10 ) {
+                    e.preventDefault();
+                  }
+                }}
                 placeholder="+977-98XXXXXXXX"
                 className={inputClass}
               />
