@@ -8,16 +8,24 @@ import { fadeInRight, staggerContainer } from "../animations/Variants.js";
 import { toast } from "react-toastify";
 import { LoaderContext } from "../Context/LoaderContext.jsx";
 import { parseHour } from "../utils/timeUtils.js";
+import GlobalConfirmModal from "./common/GlobalConfirmModal.jsx";
+import { ConfirmModalContext } from "../Context/ConfirmModalContext.jsx";
+import { useLockBodyScroll } from "../CustomHooks/useLockBodyScroll.js";
 
 const FutsalTime = ({ selectDate }) => {
   const currentUser = useFetchUser();
   const { sendBooking, booking, socket } = useContext(SocketContext);
-  const [bookings, setBookings]           = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [changeBooking, setChangeBooking] = useState([]);
-  const { showLoading, hideLoading }      = useContext(LoaderContext);
+  const { showLoading, hideLoading } = useContext(LoaderContext);
+  const { isShowModal, showConfirmModal } =useContext(ConfirmModalContext);
 
-  const date       = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
-  const todaysDate = new Date().toISOString().split("T")[0].replaceAll("-", "/");
+
+  const date = selectDate.toISOString().split("T")[0].replaceAll("-", "/");
+  const todaysDate = new Date()
+    .toISOString()
+    .split("T")[0]
+    .replaceAll("-", "/");
 
   // ── socket: new booking ──
   useEffect(() => {
@@ -49,56 +57,61 @@ const FutsalTime = ({ selectDate }) => {
     fetchAllBookings();
   }, [date]);
 
-  const handleBooking = async (startTime, id) => {
+  const handleBookingConfirm = async (startTime, id) => {
     if (!currentUser) {
       toast.error("You have to login/sign up for booking!");
       return;
     }
-    const userChoice = confirm("Do you want to book this time slot?");
-    if (!userChoice) return;
+    // const userChoice = confirm("Do you want to book this time slot?");
+    // if (!userChoice) return;
+    showConfirmModal()
 
-    try {
-      showLoading();
-      const checkAvail = await apiRequest.get(
-        `/booking/check?date=${date}&startTime=${startTime}`
-      );
-      if (!checkAvail.data.available) {
-        toast.error("Sorry, this slot was just booked by someone else!");
-        return;
-      }
-      await apiRequest.post("/booking/add", {
-        userId: currentUser._id,
-        startTime,
-        date,
-      });
-      setChangeBooking((prev) => [...prev, id]);
-      sendBooking(currentUser?._id, startTime, date);
-      toast.success("Booking successful!");
-    } catch {
-      toast.error("Failed to add booking!");
-    } finally {
-      hideLoading();
-    }
+    // try {
+    //   showLoading();
+    //   const checkAvail = await apiRequest.get(
+    //     `/booking/check?date=${date}&startTime=${startTime}`,
+    //   );
+    //   if (!checkAvail.data.available) {
+    //     toast.error("Sorry, this slot was just booked by someone else!");
+    //     return;
+    //   }
+    //   await apiRequest.post("/booking/add", {
+    //     userId: currentUser._id,
+    //     startTime,
+    //     date,
+    //   });
+    //   setChangeBooking((prev) => [...prev, id]);
+    //   sendBooking(currentUser?._id, startTime, date);
+    //   toast.success("Booking successful!");
+    // } catch {
+    //   toast.error("Failed to add booking!");
+    // } finally {
+    //   hideLoading();
+    // }
   };
 
-  const bookedTime   = new Set(bookings?.map((b) => b.startTime));
-  const requiredDay  = selectDate.getDate();
-  const currentDay   = new Date().getDate();
-  const currentHour  = new Date().getHours();
-  const isFutureDay  = requiredDay > currentDay;
+  const bookSlot = async () => {
+    
+  }
+
+  const bookedTime = new Set(bookings?.map((b) => b.startTime));
+  const requiredDay = selectDate.getDate();
+  const currentDay = new Date().getDate();
+  const currentHour = new Date().getHours();
+  const isFutureDay = requiredDay > currentDay;
 
   const visibleSlots = isFutureDay
     ? timeSlots
     : timeSlots.filter((t) => parseHour(t.startTime) > currentHour);
 
-  const bookedCount    = visibleSlots.filter((t) =>
-    bookedTime.has(t.startTime) || changeBooking.includes(t.id)
+  const bookedCount = visibleSlots.filter(
+    (t) => bookedTime.has(t.startTime) || changeBooking.includes(t.id),
   ).length;
   const availableCount = visibleSlots.length - bookedCount;
 
   return (
     <div className="w-full space-y-8">
-
+      <GlobalConfirmModal />
       {/* ── tomorrow notice ── */}
       {isFutureDay && (
         <motion.div
@@ -118,13 +131,15 @@ const FutsalTime = ({ selectDate }) => {
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#00ff87]" />
           <span className="text-white/50">
-            <span className="text-white font-semibold">{availableCount}</span> Available
+            <span className="text-white font-semibold">{availableCount}</span>{" "}
+            Available
           </span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-red-500/70" />
           <span className="text-white/50">
-            <span className="text-white font-semibold">{bookedCount}</span> Booked
+            <span className="text-white font-semibold">{bookedCount}</span>{" "}
+            Booked
           </span>
         </div>
         <div className="ml-auto text-white/25 text-xs">
@@ -159,7 +174,9 @@ const FutsalTime = ({ selectDate }) => {
                 <p className="text-xs text-white/30 uppercase tracking-widest mb-1">
                   Time Slot
                 </p>
-                <p className={`text-lg font-bold ${hasBooked ? "text-white/30" : "text-white"}`}>
+                <p
+                  className={`text-lg font-bold ${hasBooked ? "text-white/30" : "text-white"}`}
+                >
                   {t.startTime}
                   <span className="text-white/30 font-normal"> – </span>
                   {t.endTime}

@@ -8,6 +8,6 @@ export const useLockBodyScroll = (lock) => {
         document.body.style.overflow="auto";
     }
 
-    return () => document.body.style.overflow='auto'
+    return () => document.body.style.overflow=''
     },[lock])
 }
