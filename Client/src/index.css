@@ -13,3 +13,14 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+
+/*Hide number input arrows(chrome, edge, safari, opera)*/
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button{
+  @apply appearance-none m-0
+}
+
+/*hide arrows in firefox*/
+input[type="number"] {
+  -moz-appearance: textfield;
+}
