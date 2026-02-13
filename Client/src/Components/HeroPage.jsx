@@ -39,7 +39,7 @@ const HeroPage = () => {
         </motion.div>
 
         {/* main heading */}
-        <h1 className="text-6xl md:text-[7.5rem] font-black leading-none tracking-tight mb-4">
+        <h1 className="text-[3.2rem] md:text-[7.5rem] font-black leading-none tracking-tight mb-4">
           {text1.split("").map((char, i) => (
             <motion.span
               key={i}
