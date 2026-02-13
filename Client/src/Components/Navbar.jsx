@@ -58,7 +58,7 @@ const Navbar = () => {
         {/* top accent line */}
         <AccentLine verticalPosition={"top-0"} />
 
-        <div className="max-w-[90%] mx-auto px-4 sm:px-8 flex items-center justify-between h-18">
+        <div className="mx-auto px-4 sm:px-8 flex items-center justify-between h-18">
 
           {/* Logo */}
           <Link to="/" onClick={() => handleLinkClick("/")}>
