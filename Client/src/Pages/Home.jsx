@@ -35,9 +35,9 @@ const Home = () => {
 
   useEffect(() => {
     if (homeInView) setActiveLink("/");
-    else if (aboutInView) setActiveLink("about");
-    else if (bookFutsalInView) setActiveLink("bookFutsal");
-    else if (contactInView) setActiveLink("contact");
+    else if (aboutInView) setActiveLink("/aboutUs");
+    else if (bookFutsalInView) setActiveLink("/bookFutsal");
+    else if (contactInView) setActiveLink("/contactUs");
   }, [homeInView, aboutInView, bookFutsalInView, contactInView, setActiveLink]);
 
   return (
@@ -79,8 +79,6 @@ const Home = () => {
       >
         <Contact />
       </section>
-
-     
     </div>
   );
 };
