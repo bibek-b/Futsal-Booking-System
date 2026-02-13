@@ -100,7 +100,6 @@ const Navbar = () => {
             {NAV_LINKS.map((data) => (
               <li
                 key={data.id}
-                // to="#"
                 onClick={(e) => handleLinkClick(data.href)}
                 className={`relative py-1 transition-colors duration-300 cursor-pointer hover:text-[#00ff87] ${
                   activeLink === data.href ? "text-[#00ff87]" : "text-gray-300"
@@ -118,7 +117,6 @@ const Navbar = () => {
 
             {currentUser && token && (
               <li
-                // to="#"
                 onClick={() => handleLinkClick("myBookings")}
                 className="relative py-1 text-gray-300 transition-colors cursor-pointer duration-300 hover:text-[#00ff87]"
               >
@@ -223,9 +221,8 @@ const Navbar = () => {
           {/* drawer links */}
           <ul className="flex flex-col px-6 pt-6 gap-1 flex-1">
             {NAV_LINKS.map((data) => (
-              <li key={data.id}>
-                <Link
-                  // to={data.href}
+                <li
+                key={data.id}
                   onClick={() => handleLinkClick(data.href)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                     activeLink === data.href
@@ -234,24 +231,20 @@ const Navbar = () => {
                   }`}
                 >
                   {data.name}
-                </Link>
-              </li>
+                </li>
             ))}
 
             {currentUser && token && (
-              <li>
-                <Link
-                  to="/myBookings"
-                  onClick={() => handleLinkClick("/myBookings")}
+                <li
+                  onClick={() => handleLinkClick("myBookings")}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    activeLink === "/myBookings"
+                    activeLink === "myBookings"
                       ? "bg-[#00ff87]/10 text-[#00ff87] border border-[#00ff87]/20"
                       : "text-gray-400 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   My Bookings
-                </Link>
-              </li>
+                </li>
             )}
           </ul>
 
