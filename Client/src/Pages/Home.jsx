@@ -35,9 +35,9 @@ const Home = () => {
 
   useEffect(() => {
     if (homeInView) setActiveLink("/");
-    else if (aboutInView) setActiveLink("/aboutUs");
-    else if (bookFutsalInView) setActiveLink("/bookFutsal");
-    else if (contactInView) setActiveLink("/contactUs");
+    else if (aboutInView) setActiveLink("aboutUs");
+    else if (bookFutsalInView) setActiveLink("bookFutsal");
+    else if (contactInView) setActiveLink("contactUs");
   }, [homeInView, aboutInView, bookFutsalInView, contactInView, setActiveLink]);
 
   return (
@@ -51,7 +51,7 @@ const Home = () => {
 
       {/* ── About ── */}
       <section
-        id="about"
+        id="aboutUs"
         ref={aboutRef}
         className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
       >
@@ -73,7 +73,7 @@ const Home = () => {
 
       {/* ── Contact ── */}
       <section
-        id="contact"
+        id="contactUs"
         ref={contactRef}
         className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
       >
