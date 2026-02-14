@@ -1,4 +1,4 @@
- 🏟️ Gajuri Futsal Booking System
+ 🏟️ Bibek Futsal Booking System
 ----------------------------------
 
 A MERN stack web application that allows users to view, book, and manage futsal time slots.
