@@ -5,7 +5,7 @@ import { useLockBodyScroll } from "../../CustomHooks/useLockBodyScroll";
 
 const GlobalConfirmModal = ({ title, detail, onPress }) => {
     const {isShowModal, hideConfirmModal } = useContext(ConfirmModalContext);
-    useLockBodyScroll(isShowModal)
+    useLockBodyScroll(isShowModal);
   return (
     <AnimatePresence>
       {/* backdrop */}
