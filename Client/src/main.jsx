@@ -8,9 +8,11 @@ import { ToastContainer } from "react-toastify";
 import { LoaderContextProvider } from "./Context/LoaderContext.jsx";
 import GlobalLoader from "./Components/common/GlobalLoader.jsx";
 import { ConfirmModalContextProvider } from "./Context/ConfirmModalContext.jsx";
+import { ScrollLockContextProvider } from "./Context/ScrollLockContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <ConfirmModalContextProvider>
+  <ScrollLockContextProvider>
+    <ConfirmModalContextProvider>
     <LoaderContextProvider>
     <AuthContextProvider>
     <SocketContextProvider>
@@ -27,5 +29,6 @@ createRoot(document.getElementById("root")).render(
     </SocketContextProvider>
   </AuthContextProvider>
   </LoaderContextProvider>
-  </ConfirmModalContextProvider>,
+  </ConfirmModalContextProvider>
+  </ScrollLockContextProvider>,
 );

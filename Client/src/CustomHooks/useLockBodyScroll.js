@@ -1,13 +1,16 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
+import { ScrollLockContext } from "../Context/ScrollLockContext"
 
-export const useLockBodyScroll = (lock) => {
+export const useLockBodyScroll = (isLocked) => {
+    const { lock, unlock} = useContext(ScrollLockContext);
+
     useEffect(() => {
-        if(lock) {
-        document.body.style.overflow = 'hidden'
-    } else {
-        document.body.style.overflow="auto";
-    }
+       if(!isLocked) return;
 
-    return () => document.body.style.overflow='auto'
-    },[lock])
+       lock();
+
+    return () => {
+        unlock();
+    }
+    },[isLocked])
 }
