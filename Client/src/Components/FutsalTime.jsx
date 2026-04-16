@@ -46,13 +46,13 @@ const FutsalTime = ({ selectDate }) => {
   useEffect(() => {
     const fetchAllBookings = async () => {
       try {
-        // showLoading();
+        showLoading();
         const res = await apiRequest.get("/booking/all?date=" + date);
         setBookings(res.data);
       } catch (error) {
         toast.error(error.response?.data?.error || "Error fetching bookings");
       } finally {
-        // hideLoading();
+        hideLoading();
       }
     };
     fetchAllBookings();

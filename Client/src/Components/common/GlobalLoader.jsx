@@ -6,7 +6,7 @@ import { LoaderContext } from "../../Context/LoaderContext";
 const GlobalLoader = () => {
   const { isLoading } = useContext(LoaderContext);
 
- useLockBodyScroll(isLoading);
+//  useLockBodyScroll(isLoading);
   return (
     isLoading && (
       <div className=" fixed text-gre inset-0 flex items-center justify-center bg-black/50 bg-blue">
