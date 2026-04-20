@@ -9,7 +9,7 @@ const GlobalLoader = () => {
 //  useLockBodyScroll(isLoading);
   return (
     isLoading && (
-      <div className=" fixed text-gre inset-0 flex items-center justify-center bg-black/50 bg-blue">
+      <div className=" fixed  inset-0 flex items-center justify-center bg-black/50 bg-blue z-9999">
         <InfinitySpin
           color="white"
         />
