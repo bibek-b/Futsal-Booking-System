@@ -11,7 +11,7 @@ import SuspenseLoader from "./Components/common/SuspenseLoader";
 
 const Register = lazy(() => import("./Pages/Register"));
 const Login = lazy(() => import("./Pages/Login"));
-const MyBookings = lazy(() => import("./Pages/MyBookings"));
+const MyBookings = lazy(() => import("./Components/MyBookings"));
 const AdminLayout = lazy(() => import("./Admin/AdminLayout/AdminLayout"));
 const Admin = lazy(() => import("./Admin/Pages/Admin"));
 const BookFutsalAdmin = lazy(() => import("./Admin/Pages/BookFutsalAdmin"));
