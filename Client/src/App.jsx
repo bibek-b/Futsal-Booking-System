@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import BookFutsal from "./Components/BookFutsal";
 import About from "./Components/About";
-import MyBookings from "./Components/MyBookings";
 import Contact from "./Components/Contact";
 import Layout from "../Layout/Layout";
 import ProtectedAdminRoutes from "./Admin/ProtectedRoutes/ProtectedAdminRoutes";
