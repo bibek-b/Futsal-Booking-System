@@ -1,7 +1,7 @@
 import HeroPage from "../Components/HeroPage";
 import { useInView } from "react-intersection-observer";
 import { useActiveSectionStore } from "../stores/activeSection";
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import SectionDivider from "../Components/common/SectionDivider";
 
 const About = lazy(() => import("../Components/About"));
