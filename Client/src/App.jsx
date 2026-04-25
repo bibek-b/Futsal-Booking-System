@@ -1,23 +1,30 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from "./Pages/Register";
-import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import BookFutsal from "./Components/BookFutsal";
 import About from "./Components/About";
 import MyBookings from "./Components/MyBookings";
 import Contact from "./Components/Contact";
 import Layout from "../Layout/Layout";
-import AdminLayout from "./Admin/AdminLayout/AdminLayout";
-import Admin from "./Admin/Pages/Admin";
-import BookFutsalAdmin from "./Admin/Pages/BookFutsalAdmin";
-import MyBookingsAdmin from "./Admin/Pages/MyBookingsAdmin";
 import ProtectedAdminRoutes from "./Admin/ProtectedRoutes/ProtectedAdminRoutes";
 import ProtectedMyBookings from "./Admin/ProtectedRoutes/ProtectedMyBookings";
+import { lazy, Suspense } from "react";
+import SuspenseLoader from "./Components/common/SuspenseLoader";
+
+const Register = lazy(() => import("./Pages/Register"));
+const Login = lazy(() => import("./Pages/Login"));
+const MyBookings = lazy(() => import("./Pages/MyBookings"));
+const AdminLayout = lazy(() => import("./Admin/AdminLayout/AdminLayout"));
+const Admin = lazy(() => import("./Admin/Pages/Admin"));
+const BookFutsalAdmin = lazy(() => import("./Admin/Pages/BookFutsalAdmin"));
+const MyBookingsAdmin = lazy(() => import("./Admin/Pages/MyBookingsAdmin"));
+
+
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
+   <Suspense fallback={<SuspenseLoader />}>
+       <Routes>
         {/* Layout routes with navbar + footer */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -49,6 +56,7 @@ const App = () => {
           <Route path="myBookings" element={<MyBookingsAdmin />} />
         </Route>
       </Routes>
+   </Suspense>
     </BrowserRouter>
   );
 };

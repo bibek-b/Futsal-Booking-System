@@ -1,11 +1,12 @@
 import HeroPage from "../Components/HeroPage";
-import BookFutsal from "../Components/BookFutsal";
-import About from "../Components/About";
-import Contact from "../Components/Contact";
 import { useInView } from "react-intersection-observer";
 import { useActiveSectionStore } from "../stores/activeSection";
 import { useEffect } from "react";
 import SectionDivider from "../Components/common/SectionDivider";
+
+const About = lazy(() => import("../Components/About"));
+const BookFutsal = lazy(() => import("../Components/BookFutsal"));
+const Contact = lazy(() => import("../Components/Contact"));
 
 const Home = () => {
   const { ref: homeRef, inView: homeInView } = useInView({
