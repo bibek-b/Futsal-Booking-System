@@ -1,7 +1,7 @@
 import { MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import customMarker from '../assets/uclball.png';
+import customMarker from '../assets/uclball.webp';
 
 const position = [ 27.7035, 85.3210];
 

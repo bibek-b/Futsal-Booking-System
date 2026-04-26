@@ -1,5 +1,5 @@
 import { blurIn, fadeLeft } from "../animations/Variants";
-import aboutImg from "../assets/about.jpg";
+import aboutImg from "../assets/about.webp";
 import { useScrollTop } from "../CustomHooks/useScrollTop";
 import { motion } from "framer-motion";
 
