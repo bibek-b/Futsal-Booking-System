@@ -1,7 +1,10 @@
 import { fadeUp } from "../animations/Variants";
-import FutsalMap from "./FutsalMap";
 import { motion } from "framer-motion";
 import { useScrollTop } from "../CustomHooks/useScrollTop";
+import { lazy, Suspense } from "react";
+import SuspenseLoader from "./common/SuspenseLoader";
+
+const FutsalMap = lazy(() => import('./FutsalMap'));
 
 const inputClass = `
   w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm
@@ -129,7 +132,9 @@ const Contact = () => {
         >
           {/* map container */}
           <div className="w-full h-[320px] md:h-[420px] rounded-2xl overflow-hidden border border-white/10 relative">
-            <FutsalMap />
+            <Suspense fallback={<SuspenseLoader />}>
+              <FutsalMap />
+            </Suspense>
 
             {/* corner accents */}
             <div className="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 border-[#00ff87]/40 rounded-tl-lg pointer-events-none" />
