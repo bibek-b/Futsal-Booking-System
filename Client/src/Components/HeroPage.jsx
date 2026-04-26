@@ -132,14 +132,14 @@ const HeroPage = () => {
       </div>
 
       {/* ── decorative number ── */}
-      {/* <motion.span
+      <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 1 }}
         className="absolute right-8 bottom-12 text-[180px] md:text-[260px] font-black text-white/[0.03] select-none pointer-events-none leading-none"
       >
         01
-      </motion.span> */}
+      </motion.span>
     </div>
   );
 };
