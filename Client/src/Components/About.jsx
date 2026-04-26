@@ -14,9 +14,7 @@ const About = () => {
   useScrollTop();
 
   return (
-    <div
-      className={`w-full  md:px-14 px-5 pt-25 pb-10 bg-black`}
-    >
+    <div className={`w-full  md:px-14 px-5 pt-25 pb-10 bg-black`}>
       {/* ── section label ── */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
@@ -120,10 +118,14 @@ const About = () => {
 
           <img
             src={aboutImg}
+            srcSet={`${aboutImg} 800w`}
+            sizes="(max-width: 768px) 100vw, 50vw"
             alt="About Bibek Futsal ArenaX"
             className="w-full h-[320px] md:h-[480px] object-cover rounded-2xl"
+            loading="lazy"
+            width={800}
+            height={480}
           />
-
           {/* overlay badge */}
           <div className="absolute bottom-5 left-5 bg-black/70 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3">
             <p className="text-[#00ff87] text-xs font-semibold tracking-widest uppercase">
