@@ -3,8 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { useActiveSectionStore } from "../stores/activeSection";
 import { lazy, Suspense, useEffect } from "react";
 import SectionDivider from "../Components/common/SectionDivider";
-import SuspenseLoader from '../Components/common/SuspenseLoader';
-
+import SuspenseLoader from "../Components/common/SuspenseLoader";
 
 const About = lazy(() => import("../Components/About"));
 const BookFutsal = lazy(() => import("../Components/BookFutsal"));
@@ -27,14 +26,14 @@ const Home = () => {
     threshold: 0,
     rootMargin: "-40% 0px -60% 0px",
   });
-  
+
   const setActiveLink = useActiveSectionStore(
     (state) => state.setActiveSection,
   );
-  
-    useEffect(() => {
-      window.scrollTo({ top: 0 });
-    }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
 
   useEffect(() => {
     if (homeInView) setActiveLink("/");
@@ -53,37 +52,40 @@ const Home = () => {
       <SectionDivider />
 
       {/* ── About ── */}
-     <Suspense fallback={<SuspenseLoader />}>
-       <section
-        id="aboutUs"
-        ref={aboutRef}
-        className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
-      >
-        <About />
-      </section>
-
-     </Suspense>
+      <Suspense fallback={<SuspenseLoader />}>
+        <section
+          id="aboutUs"
+          ref={aboutRef}
+          className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
+        >
+          <About />
+        </section>
+      </Suspense>
       <SectionDivider />
 
       {/* ── Book Futsal ── */}
-      <section
-        id="bookFutsal"
-        ref={bookFutsalRef}
-        className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
-      >
-        <BookFutsal />
-      </section>
+      <Suspense fallback={<SuspenseLoader />}>
+        <section
+          id="bookFutsal"
+          ref={bookFutsalRef}
+          className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
+        >
+          <BookFutsal />
+        </section>
+      </Suspense>
 
       <SectionDivider />
 
-      {/* ── Contact ── */}
-      <section
-        id="contactUs"
-        ref={contactRef}
-        className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
-      >
-        <Contact />
-      </section>
+      <Suspense fallback={<SuspenseLoader />}>
+        {/* ── Contact ── */}
+        <section
+          id="contactUs"
+          ref={contactRef}
+          className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
+        >
+          <Contact />
+        </section>
+      </Suspense>
     </div>
   );
 };
