@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 import useFetchUser from "../../CustomHooks/useFetchUser";
-import admin from "../../assets/admin.jpg";
+import admin from "../../assets/admin.webp";
 
 const AdminNavbar = () => {
   const { logout } = useContext(AuthContext);
