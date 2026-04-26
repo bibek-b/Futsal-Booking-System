@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import { timeSlots } from "../constants/TimeSlot.js";
 import apiRequest from "../API REQUEST/apiRequest.js";
 import useFetchUser from "../CustomHooks/useFetchUser.js";
@@ -94,20 +94,30 @@ const FutsalTime = ({ selectDate }) => {
     }
   };
 
-  const bookedTime = new Set(bookings?.map((b) => b.startTime));
+  const bookedTime = useMemo(() => {
+    return new Set(bookings?.map((b) => b.startTime));
+  }, [bookings]);
+
   const selectedDate = selectDate.getDate();
   const currentDay = new Date().getDate();
   const currentHour = new Date().getHours();
   const isFutureDay = selectedDate > currentDay;
 
-  const visibleSlots = isFutureDay
-    ? timeSlots
-    : timeSlots.filter((t) => parseHour(t.startTime) > currentHour);
+  const visibleSlots = useMemo(() => {
+    return isFutureDay
+      ? timeSlots
+      : timeSlots.filter((t) => parseHour(t.startTime) > currentHour);
+  }, [isFutureDay, currentHour]);
 
-  const bookedCount = visibleSlots.filter(
-    (t) => bookedTime.has(t.startTime) || changeBooking.includes(t.id),
-  ).length;
-  const availableCount = visibleSlots.length - bookedCount;
+  const bookedCount = useMemo(() => {
+    return visibleSlots.filter(
+      (t) => bookedTime.has(t.startTime) || changeBooking.includes(t.id),
+    ).length;
+  }, [visibleSlots, bookedTime, changeBooking]);
+
+  const availableCount = useMemo(() => {
+    visibleSlots.length - bookedCount;
+  }, [visibleSlots, bookedCount]);
 
   return (
     <div className="w-full space-y-8">
@@ -117,7 +127,7 @@ const FutsalTime = ({ selectDate }) => {
         onPress={bookSlot}
       />
       {/* ── tomorrow notice ── */}
-      {((currentDay + 1 === selectedDate) && isFutureDay) && (
+      {currentDay + 1 === selectedDate && isFutureDay && (
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -153,7 +163,7 @@ const FutsalTime = ({ selectDate }) => {
 
       {/* ── slots grid ── */}
       <motion.div
-      key={visibleSlots.length}
+        // key={visibleSlots.length}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
