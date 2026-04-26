@@ -1,8 +1,10 @@
 import HeroPage from "../Components/HeroPage";
 import { useInView } from "react-intersection-observer";
 import { useActiveSectionStore } from "../stores/activeSection";
-import { lazy, useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import SectionDivider from "../Components/common/SectionDivider";
+import SuspenseLoader from '../Components/common/SuspenseLoader';
+
 
 const About = lazy(() => import("../Components/About"));
 const BookFutsal = lazy(() => import("../Components/BookFutsal"));
@@ -51,7 +53,8 @@ const Home = () => {
       <SectionDivider />
 
       {/* ── About ── */}
-      <section
+     <Suspense fallback={<SuspenseLoader />}>
+       <section
         id="aboutUs"
         ref={aboutRef}
         className="relative z-10 py-24 px-6  max-w-7xl mx-auto"
@@ -59,6 +62,7 @@ const Home = () => {
         <About />
       </section>
 
+     </Suspense>
       <SectionDivider />
 
       {/* ── Book Futsal ── */}

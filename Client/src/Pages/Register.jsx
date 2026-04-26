@@ -176,7 +176,7 @@ const Register = () => {
                 name="phoneNum"
                 onKeyDown={(e) => {
                   const inputLength = e.target.value.length;
-                  if(["e", "E", "+", "-"].includes(e.key) || inputLength === 10 ) {
+                  if(["e", "E", "+", "-"].includes(e.key)) {
                     e.preventDefault();
                   }
                 }}
