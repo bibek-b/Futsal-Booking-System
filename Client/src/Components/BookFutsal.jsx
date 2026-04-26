@@ -1,9 +1,10 @@
-import { useState } from "react";
-import FutsalTime from "./FutsalTime";
+import { lazy, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeUp, scaleUp } from "../animations/Variants";
 import { useScrollTop } from "../CustomHooks/useScrollTop";
 import { getInitialDate, getMinDate } from "../utils/dateUtils";
+
+const FutsalTime = lazy(() => import('./FutsalTime'));
 
 const BookFutsal = () => {
   const [selectDate, setSelectDate] = useState(getInitialDate());
